@@ -200,6 +200,7 @@
     "esbuild": "catalog:",
     "markdown-it": "catalog:",
     "oxlint": "catalog:",
+    "oxlint-tsgolint": "^7.0.2004",
     "typescript": "catalog:"
   }
 }
