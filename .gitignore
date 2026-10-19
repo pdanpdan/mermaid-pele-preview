@@ -1,0 +1,6 @@
+node_modules/
+.vsce-tmp/
+dist/
+media/webview.js
+media/webview.js.map
+*.vsix
