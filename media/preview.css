@@ -1,0 +1,181 @@
+.pele-diagram {
+  --pele-bg: var(--vscode-editor-background, #ffffff);
+  --pele-fg: var(--vscode-editor-foreground, #1f1f1f);
+  --pele-muted: var(--vscode-descriptionForeground, #6e6e6e);
+  --pele-line: var(--vscode-editor-foreground, #1f1f1f);
+  --pele-surface: var(--vscode-editorWidget-background, #f3f3f3);
+  --pele-surface-alt: var(--vscode-textCodeBlock-background, #e6e6e6);
+  --pele-border: var(--vscode-editorWidget-border, #8a8a8a);
+  --pele-accent: var(--vscode-textLink-foreground, #5b7bd5);
+  --pele-critical: var(--vscode-charts-red, #e45756);
+  --pele-error: var(--vscode-errorForeground, #e45756);
+  --pele-font: var(--mermaid-view-font, var(--vscode-font-family, sans-serif));
+  --pele-font-mono: var(--vscode-editor-font-family, monospace);
+  --pele-series-1: var(--vscode-charts-blue, #4c78a8);
+  --pele-series-2: var(--vscode-charts-orange, #f58518);
+  --pele-series-3: var(--vscode-charts-green, #54a24b);
+  --pele-series-4: var(--vscode-charts-red, #e45756);
+  --pele-series-5: var(--vscode-charts-purple, #b279a2);
+  --pele-series-6: var(--vscode-charts-yellow, #eeca3b);
+  --pele-series-7: var(--vscode-charts-lines, #9d755d);
+  --pele-series-8: var(--vscode-charts-foreground, #6e6e6e);
+
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  background: var(--pele-bg);
+  color: var(--pele-fg);
+  font-family: var(--pele-font);
+}
+
+.pele-figure {
+  margin: 1.5em 0;
+}
+
+#root .pele-figure {
+  margin: 0;
+}
+
+.pele-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-bottom: 6px;
+  padding: 4px 0;
+  background: var(--vscode-editor-background, #ffffff);
+  color: var(--vscode-editor-foreground, #1f1f1f);
+  font-family: var(--vscode-font-family, sans-serif);
+  font-size: 12px;
+}
+
+.pele-toolbar[hidden] {
+  display: none;
+}
+
+.pele-toolbar button {
+  appearance: none;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid var(--vscode-editorWidget-border, #8a8a8a);
+  border-radius: 4px;
+  background: var(--vscode-editorWidget-background, #f3f3f3);
+  color: var(--vscode-editor-foreground, #1f1f1f);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pele-toolbar button:hover:not(:disabled) {
+  background: var(--vscode-toolbar-hoverBackground, #e6e6e6);
+}
+
+.pele-toolbar button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pele-toolbar button:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder, #007acc);
+  outline-offset: 1px;
+}
+
+.pele-zoom-level {
+  min-width: 3em;
+  color: var(--vscode-descriptionForeground, #6e6e6e);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.pele-viewport {
+  position: relative;
+}
+
+.pele-viewport.pele-zoomed {
+  cursor: grab;
+  user-select: none;
+}
+
+.pele-viewport.pele-dragging {
+  cursor: grabbing;
+}
+
+.pele-viewport:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder, #007acc);
+  outline-offset: 2px;
+}
+
+.pele-viewport > svg {
+  display: block;
+}
+
+.pele-diagram.pele-theme-light,
+html[data-pele-theme='light'] .pele-diagram {
+  --pele-bg: #ffffff;
+  --pele-fg: #1f1f1f;
+  --pele-muted: #6e6e6e;
+  --pele-line: #1f1f1f;
+  --pele-surface: #f3f3f3;
+  --pele-surface-alt: #e6e6e6;
+  --pele-border: #8a8a8a;
+  --pele-accent: #5b7bd5;
+  --pele-critical: #e45756;
+  --pele-error: #e45756;
+}
+
+.pele-diagram.pele-theme-dark,
+html[data-pele-theme='dark'] .pele-diagram {
+  --pele-bg: #100f0f;
+  --pele-fg: #cecdc3;
+  --pele-muted: #878580;
+  --pele-line: #cecdc3;
+  --pele-surface: #1c1b1a;
+  --pele-surface-alt: #282726;
+  --pele-border: #403e3c;
+  --pele-accent: #4385be;
+  --pele-critical: #d14d41;
+  --pele-error: #d14d41;
+}
+
+.pele-diagram.pele-theme-light,
+.pele-diagram.pele-theme-dark,
+html[data-pele-theme='light'] .pele-diagram,
+html[data-pele-theme='dark'] .pele-diagram {
+  --pele-series-1: #4c78a8;
+  --pele-series-2: #f58518;
+  --pele-series-3: #54a24b;
+  --pele-series-4: #e45756;
+  --pele-series-5: #72b7b2;
+  --pele-series-6: #eeca3b;
+  --pele-series-7: #b279a2;
+  --pele-series-8: #9d755d;
+}
+
+pre.pele-mermaid {
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.pele-hint {
+  margin: 1em 0;
+  color: var(--vscode-descriptionForeground);
+  font-style: italic;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+}
+
+#root {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 20px;
+}

@@ -1,0 +1,17 @@
+.git/**
+.github/**
+.vscode/**
+src/**
+scripts/**
+PUBLISHING.md
+.vsce-tmp/**
+node_modules/**
+dist/*.map
+media/*.map
+esbuild.mjs
+tsconfig.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+.oxlintrc.json
+*.vsix
+.gitignore

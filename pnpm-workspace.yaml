@@ -1,0 +1,18 @@
+packages:
+  - .
+
+allowBuilds:
+  '@vscode/vsce-sign': true
+  esbuild: true
+  keytar: true
+
+catalog:
+  '@types/markdown-it': ^14.1.2
+  '@types/node': ^22.10.2
+  '@types/vscode': ^1.85.0
+  '@vscode/vsce': ^3.2.1
+  esbuild: ^0.24.2
+  markdown-it: ^14.1.0
+  oxlint: ^1.88.0
+  pele: ^1.6.0
+  typescript: ^5.7.3

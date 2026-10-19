@@ -4,3 +4,4 @@ dist/
 media/webview.js
 media/webview.js.map
 *.vsix
+PUBLISHING.md

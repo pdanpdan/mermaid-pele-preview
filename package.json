@@ -1,0 +1,205 @@
+{
+  "name": "mermaid-pele-preview",
+  "displayName": "Mermaid Pele Preview",
+  "description": "Render Mermaid diagrams with Pele: preview .mmd files and mermaid code blocks in Markdown.",
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.25.0",
+  "author": "Dan Popescu <pdan.popescu@gmail.com> (https://github.com/pdanpdan)",
+  "publisher": "pdanpdan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pdanpdan/mermaid-pele-preview.git"
+  },
+  "homepage": "https://github.com/pdanpdan/mermaid-pele-preview#readme",
+  "bugs": {
+    "url": "https://github.com/pdanpdan/mermaid-pele-preview/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "mermaid",
+    "diagram",
+    "mmd",
+    "markdown",
+    "pele"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "mermaidView.preview",
+        "displayName": "Mermaid Preview",
+        "selector": [
+          {
+            "filenamePattern": "*.mmd"
+          },
+          {
+            "filenamePattern": "*.mermaid"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "languages": [
+      {
+        "id": "mermaid",
+        "aliases": [
+          "Mermaid",
+          "mermaid"
+        ],
+        "extensions": [
+          ".mmd",
+          ".mermaid"
+        ],
+        "configuration": "./syntaxes/mermaid-language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mermaid",
+        "scopeName": "source.mermaid",
+        "path": "./syntaxes/mermaid.tmLanguage.json"
+      },
+      {
+        "scopeName": "markdown.mermaid.codeblock",
+        "path": "./syntaxes/mermaid.tmLanguage-markdown.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.mermaid": "mermaid"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "mermaidView.openSource",
+        "title": "Open Mermaid Source",
+        "category": "Mermaid",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "mermaidView.openPreview",
+        "title": "Open Mermaid Preview",
+        "category": "Mermaid",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "mermaidView.openPreviewToSide",
+        "title": "Open Mermaid Preview to the Side",
+        "category": "Mermaid",
+        "icon": "$(split-horizontal)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "mermaidView.openSource",
+          "when": "activeCustomEditorId == 'mermaidView.preview'",
+          "group": "navigation@1"
+        },
+        {
+          "command": "mermaidView.openPreview",
+          "when": "(resourceExtname == '.mmd' || resourceExtname == '.mermaid') && activeCustomEditorId != 'mermaidView.preview'",
+          "group": "navigation@1"
+        },
+        {
+          "command": "mermaidView.openPreviewToSide",
+          "when": "(resourceExtname == '.mmd' || resourceExtname == '.mermaid') && activeCustomEditorId != 'mermaidView.preview'",
+          "group": "navigation@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "mermaidView.openPreviewToSide",
+          "when": "resourceExtname == '.mmd' || resourceExtname == '.mermaid'",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "mermaidView.openSource",
+          "when": "activeCustomEditorId == 'mermaidView.preview'"
+        },
+        {
+          "command": "mermaidView.openPreview",
+          "when": "resourceExtname == '.mmd' || resourceExtname == '.mermaid'"
+        },
+        {
+          "command": "mermaidView.openPreviewToSide",
+          "when": "resourceExtname == '.mmd' || resourceExtname == '.mermaid'"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "mermaidView.openPreviewToSide",
+        "key": "ctrl+k v",
+        "mac": "cmd+k v",
+        "when": "(resourceExtname == '.mmd' || resourceExtname == '.mermaid') && activeCustomEditorId != 'mermaidView.preview'"
+      }
+    ],
+    "configuration": {
+      "title": "Mermaid Pele Preview",
+      "properties": {
+        "mermaidView.theme": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "light",
+            "dark"
+          ],
+          "enumDescriptions": [
+            "Follow the current VS Code color theme.",
+            "Use Pele's light color palette.",
+            "Use Pele's dark color palette."
+          ],
+          "default": "auto",
+          "description": "Color theme for rendered Mermaid diagrams."
+        },
+        "mermaidView.fontFamily": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Font family for text in Mermaid diagrams, using CSS `font-family` syntax (for example `\"Fira Code\", monospace`). Leave empty to use the VS Code font.",
+          "scope": "window"
+        }
+      }
+    },
+    "markdown.markdownItPlugins": true,
+    "markdown.previewScripts": [
+      "./media/webview.js"
+    ],
+    "markdown.previewStyles": [
+      "./media/preview.css"
+    ]
+  },
+  "scripts": {
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "check": "pnpm run typecheck && pnpm run lint",
+    "vscode:prepublish": "pnpm run compile",
+    "package": "pnpm run compile && node scripts/package.mjs"
+  },
+  "dependencies": {
+    "pele": "catalog:"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "catalog:",
+    "@types/node": "catalog:",
+    "@types/vscode": "catalog:",
+    "@vscode/vsce": "catalog:",
+    "esbuild": "catalog:",
+    "markdown-it": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:"
+  }
+}
