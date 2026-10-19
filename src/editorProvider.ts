@@ -1,3 +1,4 @@
+import * as path from 'node:path';
 import * as vscode from 'vscode';
 import { getDiagramFont, getDiagramTheme } from './config';
 
@@ -28,12 +29,41 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
       });
     };
 
+    const saveSvg = async (svg: string): Promise<void> => {
+      const sourcePath =
+        document.uri.scheme === 'file' ? document.uri.fsPath : document.uri.path;
+      const base =
+        path.basename(sourcePath, path.extname(sourcePath)) || 'mermaid-diagram';
+      const defaultUri =
+        document.uri.scheme === 'file'
+          ? vscode.Uri.file(path.join(path.dirname(document.uri.fsPath), `${base}.svg`))
+          : undefined;
+      try {
+        const target = await vscode.window.showSaveDialog({
+          defaultUri,
+          filters: { 'SVG image': ['svg'] },
+          saveLabel: 'Save SVG',
+        });
+        if (!target) {
+          return;
+        }
+        await vscode.workspace.fs.writeFile(target, Buffer.from(svg, 'utf8'));
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        void vscode.window.showErrorMessage(`Could not save SVG: ${message}`);
+      }
+    };
+
     const messageSubscription = webview.onDidReceiveMessage((message: unknown) => {
       if (!message || typeof message !== 'object' || !('type' in message)) {
         return;
       }
       if (message.type === 'ready') {
         postUpdate();
+        return;
+      }
+      if (message.type === 'saveSvg' && 'svg' in message && typeof message.svg === 'string') {
+        void saveSvg(message.svg);
       }
     });
 

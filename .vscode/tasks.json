@@ -3,12 +3,20 @@
   "tasks": [
     {
       "type": "shell",
-      "command": "pnpm run compile",
+      "command": "sh",
+      "args": ["scripts/compile-task.sh"],
       "label": "pnpm: compile",
       "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "windows": {
+        "command": "pnpm",
+        "args": ["run", "compile"]
       }
     }
   ]

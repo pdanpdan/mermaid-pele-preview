@@ -4,7 +4,8 @@ A VS Code extension that renders Mermaid diagrams with [Pele](https://github.com
 
 - `.mmd` and `.mermaid` files open in a Mermaid preview by default.
 - ` ```mermaid ` code blocks are rendered in the built-in Markdown preview.
-- Diagrams adapt to the editor width, support zoom and pan, and follow the current VS Code theme.
+- Diagrams adapt to the editor width: wide diagrams open fitted to the available width, narrow diagrams keep their natural size, and the fit adjusts when the preview is resized until you zoom manually.
+- Hover or focus a diagram to reveal zoom, per-diagram light/dark, and **Save SVG** controls. They are hidden when not hovered and omitted from print.
 - Rendering happens in the webview with Pele's synchronous, dependency-free renderer. No Mermaid.js runtime is used.
 
 ## Usage
@@ -34,11 +35,15 @@ The Markdown grammar is injected into `text.html.markdown`, so it works in plain
 
 Diagrams can use Font Awesome icon syntax such as `fa:fa-code`, `fa:fa-arrow-left`, or `fab:fa-youtube`. A small built-in subset is bundled; unsupported icon names are omitted.
 
-## Zoom and pan
+## Diagram controls
 
-Each diagram has a zoom toolbar above it with a zoom percentage, zoom out, zoom in, and **Fit** buttons.
+Hover or focus a diagram to reveal its toolbar in the top-right corner. The toolbar is hidden when not hovered and omitted from print, so static captures and PDFs do not show the controls.
 
-Zooming grows the diagram canvas vertically so the whole diagram stays visible while the page scrolls. The width remains limited to the editor width; drag horizontally to pan.
+- **Save SVG** saves the diagram at its natural size as a standalone SVG, including the active palette and background. The current fit/zoom does not change the exported size. The custom editor opens a save dialog; the Markdown preview and exported HTML download the file.
+- **☀ / ☾** force the light or dark palette for that diagram. Click the active button again to return to the automatic theme. Colors set explicitly in the Mermaid source (`theme`, `themeVariables`, `style`, `classDef`) are not changed.
+- The zoom percentage, **−**, **+**, and **Fit** buttons control zoom. Each **+**/**−** step moves between whole 100% levels (100%, 200%, 300%, 400%); from a fitted size below 100%, the first **+** goes to 100%. `Ctrl`/`Cmd` + wheel gives finer steps. **Fit** returns to the width-fitted size; the percentage is relative to the diagram's natural size, so a wide diagram can show less than 100% at fit.
+
+Wide diagrams are scaled down to the available width by default and refit when the preview is resized until you zoom manually; narrow diagrams keep their natural size. Zooming grows the diagram canvas vertically so the whole diagram stays visible while the page scrolls. The diagram is clipped to its container horizontally, so the page itself does not scroll sideways; drag horizontally to pan when zoomed.
 
 - Use the toolbar, `Ctrl`/`Cmd` + wheel (including trackpad pinch), or double-click to zoom.
 - Drag with the mouse or a finger to pan horizontally when zoomed.
@@ -51,7 +56,7 @@ Zooming grows the diagram canvas vertically so the whole diagram stays visible w
 | `mermaidView.theme` | `auto` (default), `light`, `dark` | Color theme for diagrams. `auto` follows the VS Code theme; `light` and `dark` force Pele's palette. |
 | `mermaidView.fontFamily` | CSS `font-family` string; empty by default | Font family for diagram text. Leave empty to use the VS Code font. For example: `"Fira Code", monospace`. |
 
-The custom editor applies theme and font changes immediately. Reopen the Markdown preview to apply changed settings to its diagrams.
+The custom editor applies theme and font changes immediately. Reopen the Markdown preview to apply changed settings to its diagrams. The per-diagram light/dark buttons override this setting for individual diagrams.
 
 ## Commands
 
@@ -74,7 +79,7 @@ pnpm run lint
 pnpm run compile
 ```
 
-Press `F5` to launch an Extension Development Host, or package the extension:
+Press `F5` to launch an Extension Development Host, or package the extension. On Linux and macOS, the F5 prelaunch task uses `scripts/compile-task.sh`, which locates an nvm-managed Node/pnpm installation when VS Code was started with a minimal GUI PATH.
 
 ```sh
 pnpm run package
