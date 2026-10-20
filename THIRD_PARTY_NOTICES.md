@@ -2,7 +2,7 @@
 
 ## Font Awesome Free
 
-The icon paths in `src/icons.ts` are imported from the
+The icon paths in `icons/font-awesome.json.gz` are generated from the
 [Font Awesome Free packages](https://fontawesome.com/docs/web/setup/packages),
 copyright Font Awesome, Inc.
 

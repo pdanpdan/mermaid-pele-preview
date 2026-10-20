@@ -48,7 +48,76 @@ The Markdown grammar is injected into `text.html.markdown`, so it works in plain
 
 ## Icons
 
-Diagrams can use Font Awesome icon syntax such as `fa:fa-code`, `fa:fa-arrow-left`, or `fab:fa-youtube`. The resolver imports its icons from the official Font Awesome Free packages; a small subset is bundled, and unsupported icon names are omitted.
+Icons are supplied by an external icon pack. The extension does not bundle an icon set, so icon artwork is not drawn until a pack is configured.
+
+Diagrams can use Font Awesome icon syntax such as `fa:fa-code`, `fa:fa-arrow-left`, or `fab:fa-youtube`. Point `mermaidView.iconPack` at a pack file:
+
+```json
+"mermaidView.iconPack": "~/.config/mermaid-pele/font-awesome.json.gz"
+```
+
+The path supports `~` and `${workspaceFolder}`. Relative paths are resolved from the first workspace folder. Both `.json` and `.json.gz` files are accepted. If the setting is empty, the extension looks for `.vscode/mermaid-icons.json`, `.vscode/mermaid-icons.json.gz`, `mermaid-icons.json`, or `mermaid-icons.json.gz` in the workspace, then the same names in the extension's global storage. The repository's `.vscode/settings.json` uses `icons/font-awesome.json.gz` for development.
+
+A pack is a JSON object. Both plain `.json` files and gzipped `.json.gz` files are accepted:
+
+```json
+{
+  "version": 1,
+  "name": "My icons",
+  "icons": {
+    "fa:fa-code": {
+      "width": 640,
+      "height": 512,
+      "paths": ["M..."]
+    },
+    "mdi:home": {
+      "viewBox": "0 0 24 24",
+      "body": "<path d=\"...\"/>",
+      "fill": "currentColor"
+    }
+  },
+  "aliases": {
+    "fa:fa-house": "mdi:home"
+  }
+}
+```
+
+- `paths` accepts one path string or an array of path strings. `width` and `height` scale the paths into Pele's 24×24 icon frame.
+- `body` accepts a limited, sanitized SVG fragment for icon sets that use circles, rectangles, or strokes. Allowed elements are `path`, `g`, `circle`, `ellipse`, `rect`, `line`, `polyline`, and `polygon`; scripts, styles, links, images, and event attributes are removed.
+- `fill` defaults to `currentColor`; `stroke` and `strokeWidth` are optional.
+- `aliases` maps any icon name Pele passes to another pack key.
+
+### Font Awesome pack
+
+The repository includes a generated, gzipped [Font Awesome Free](https://fontawesome.com/) pack for the solid, regular, and brand sets:
+
+```text
+icons/font-awesome.json.gz
+```
+
+The easiest way to install it is to run **Mermaid: Download Font Awesome Icon Pack** from the Command Palette. The command downloads the latest pack from GitHub, saves it in the extension's global storage, and sets `mermaidView.iconPack` for you.
+
+To download it manually instead:
+
+```sh
+mkdir -p ~/.config/mermaid-pele
+curl -L https://raw.githubusercontent.com/pdanpdan/mermaid-pele-preview/main/icons/font-awesome.json.gz \
+  -o ~/.config/mermaid-pele/font-awesome.json.gz
+```
+
+Then set:
+
+```json
+"mermaidView.iconPack": "~/.config/mermaid-pele/font-awesome.json.gz"
+```
+
+To regenerate the pack from the installed Font Awesome packages:
+
+```sh
+pnpm run icons:generate
+```
+
+Pele's label parser recognizes Font Awesome syntax. Other icon sets work by mapping their artwork onto the names Pele passes, for example with `fa:fa-code` or an alias. Icons are rendered in both the custom editor and the built-in Markdown preview; reopen the Markdown preview after changing the pack.
 
 ## Diagram controls
 
@@ -70,6 +139,7 @@ Wide diagrams are scaled down to the available width by default and refit when t
 | --- | --- | --- |
 | `mermaidView.theme` | `auto` (default), `light`, `dark` | Color theme for diagrams. `auto` follows the VS Code theme; `light` and `dark` force Pele's palette. |
 | `mermaidView.fontFamily` | CSS `font-family` string; empty by default | Font family for diagram text. Leave empty to use the VS Code font. For example: `"Fira Code", monospace`. |
+| `mermaidView.iconPack` | Path to a JSON or gzipped JSON icon pack; empty by default | Icon artwork used in diagrams. Supports `~` and `${workspaceFolder}`. Empty auto-detects `.vscode/mermaid-icons.json` or `mermaid-icons.json` (plain or `.gz`) in the workspace. |
 
 The custom editor applies theme and font changes immediately. Reopen the Markdown preview to apply changed settings to its diagrams. The per-diagram light/dark buttons override this setting for individual diagrams.
 
@@ -80,6 +150,7 @@ The custom editor applies theme and font changes immediately. Reopen the Markdow
 | `Mermaid: Open Mermaid Source` | Open the active Mermaid preview as text |
 | `Mermaid: Open Mermaid Preview` | Open the active `.mmd` / `.mermaid` file in the preview |
 | `Mermaid: Open Mermaid Preview to the Side` | Open the active `.mmd` / `.mermaid` file in a preview beside the editor (`Ctrl+K V` / `Cmd+K V`) |
+| `Mermaid: Download Font Awesome Icon Pack` | Download the latest Font Awesome pack, store it, and configure `mermaidView.iconPack` |
 
 The side-preview command is also available from the Explorer context menu for `.mmd` and `.mermaid` files.
 
@@ -100,7 +171,7 @@ Press `F5` to launch an Extension Development Host, or package the extension. On
 pnpm run package
 ```
 
-The extension host is bundled to `dist/extension.js`. The webview renderer, including Pele and Temml, is bundled to `media/webview.js`; `media/preview.css` maps Pele's CSS variables to VS Code theme colors, and `media/temml.css` carries the math styles and font.
+The extension host is bundled to `dist/extension.js`. The webview renderer, including Pele and Temml, is bundled to `media/webview.js`. `media/preview.css` maps Pele's CSS variables to VS Code theme colors, and `media/temml.css` carries the math styles and font. Icon artwork is not bundled: the workspace uses the gzipped `icons/font-awesome.json.gz`, generated by `pnpm run icons:generate`.
 
 ## Changelog
 

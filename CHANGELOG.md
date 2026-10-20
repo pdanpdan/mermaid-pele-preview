@@ -10,7 +10,14 @@ All notable changes to this extension are documented here.
   Temml and work in flowcharts, sequence diagrams, state diagrams, class
   diagrams, ER diagrams, mindmaps, kanban boards, block diagrams, requirement
   diagrams, and use case diagrams.
-- Official Font Awesome Free packages for the diagram icon resolver.
+- External icon packs configured with `mermaidView.iconPack`. The repository
+  ships a generated, gzipped Font Awesome Free pack in
+  `icons/font-awesome.json.gz`; icon
+  artwork is no longer bundled in the extension.
+- Icon packs support path-based icons and sanitized SVG bodies, plus aliases
+  for mapping other icon sets onto names Pele passes.
+- The **Mermaid: Download Font Awesome Icon Pack** command downloads the pack
+  from GitHub and configures `mermaidView.iconPack`.
 
 ### Changed
 
