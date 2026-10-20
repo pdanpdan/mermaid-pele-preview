@@ -31,6 +31,8 @@ All notable changes to this extension are documented here.
 
 ### Fixed
 
+- Custom theme files now fall back to the matching built-in light/dark palette
+  for omitted variables in `auto` mode, instead of producing a hybrid palette.
 - Exported SVGs now embed literal resolved colors instead of CSS variables, so
   standalone viewers render the intended foreground and icons on the exported
   background.

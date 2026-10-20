@@ -68,7 +68,7 @@ A theme file can define `light`, `dark`, or both:
 }
 ```
 
-Variable names must start with `--pele-`. If a mode is not defined, that mode keeps the built-in Pele/VS Code palette. In `auto` mode the current VS Code light/dark theme selects the matching set; the per-diagram sun/moon buttons still switch between the defined sets. The repository includes a complete example in `examples/mermaid-theme.json`.
+Variable names must start with `--pele-`. If a mode is not defined, that mode keeps the built-in Pele/VS Code palette. When a mode is defined, variables you omit use the built-in light/dark palette for that mode, so an incomplete custom theme does not fall back to a different VS Code palette. In `auto` mode the current VS Code light/dark theme selects the matching set; the per-diagram sun/moon buttons still switch between the defined sets. The repository includes a complete example in `examples/mermaid-theme.json`.
 
 The path supports `~` and `${workspaceFolder}`. Relative paths are resolved from the first workspace folder. If the setting is empty, the extension looks for `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace, then `mermaid-theme.json` in global storage.
 

@@ -135,6 +135,7 @@ class DiagramView {
   private dragX = 0;
   private icons: IconSelection | undefined;
   private themeVariables: DiagramThemeVariables | undefined;
+  private forced: 'light' | 'dark' | undefined;
   private readonly appliedThemeVariables = new Set<string>();
 
   constructor(
@@ -147,6 +148,11 @@ class DiagramView {
     this.onSave = onSave;
     this.icons = icons;
     this.themeVariables = themeVariables;
+    this.forced = container.classList.contains('pele-theme-light')
+      ? 'light'
+      : container.classList.contains('pele-theme-dark')
+        ? 'dark'
+        : undefined;
     this.figure = document.createElement('div');
     this.figure.className = 'pele-figure';
     for (const themeClass of THEME_CLASSES) {
@@ -569,23 +575,11 @@ class DiagramView {
   }
 
   private forcedTheme(): 'light' | 'dark' | undefined {
-    if (this.figure.classList.contains('pele-theme-light')) {
-      return 'light';
-    }
-    if (this.figure.classList.contains('pele-theme-dark')) {
-      return 'dark';
-    }
-    return undefined;
+    return this.forced;
   }
 
   private toggleTheme(theme: 'light' | 'dark'): void {
-    const next = this.forcedTheme() === theme ? undefined : theme;
-    const light = next === 'light';
-    const dark = next === 'dark';
-    this.figure.classList.toggle('pele-theme-light', light);
-    this.figure.classList.toggle('pele-theme-dark', dark);
-    this.container.classList.toggle('pele-theme-light', light);
-    this.container.classList.toggle('pele-theme-dark', dark);
+    this.forced = this.forced === theme ? undefined : theme;
     this.applyThemeVariables();
     this.updateToolbar();
   }
@@ -597,7 +591,18 @@ class DiagramView {
     }
     this.appliedThemeVariables.clear();
 
-    const variables = this.themeVariables?.[this.effectiveTheme()];
+    const mode = this.effectiveTheme();
+    const variables = this.themeVariables?.[mode];
+    const rootTheme = document.documentElement.dataset.peleTheme;
+    const useThemeClass =
+      this.forced !== undefined ||
+      (rootTheme !== 'light' && rootTheme !== 'dark' && variables !== undefined);
+    for (const themeClass of THEME_CLASSES) {
+      const enabled = useThemeClass && themeClass === `pele-theme-${mode}`;
+      this.figure.classList.toggle(themeClass, enabled);
+      this.container.classList.toggle(themeClass, enabled);
+    }
+
     if (!variables) {
       return;
     }
