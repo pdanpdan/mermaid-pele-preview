@@ -1,83 +1,302 @@
-/**
- * Font Awesome Free 6 icon paths used by the bundled Mermaid examples.
- *
- * Icons are from Font Awesome Free (https://fontawesome.com), copyright
- * Font Awesome, Inc., licensed under CC BY 4.0
- * (https://creativecommons.org/licenses/by/4.0/).
- */
-
-interface IconData {
-  width: number;
-  height: number;
-  path: string;
+export interface IconEntry {
+  width?: number;
+  height?: number;
+  viewBox?: string | [number, number, number, number];
+  paths?: string | string[];
+  body?: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
 }
 
-const SOLID_ICONS: Record<string, IconData> = {
-  'arrow-left': {
-    width: 512,
-    height: 512,
-    path: 'M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 105.4-105.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z',
-  },
-  gem: {
-    width: 512,
-    height: 512,
-    path: 'M116.7 33.8c4.5-6.1 11.7-9.8 19.3-9.8l240 0c7.6 0 14.8 3.6 19.3 9.8l112 152c6.8 9.2 6.1 21.9-1.5 30.4l-232 256c-4.5 5-11 7.9-17.8 7.9s-13.2-2.9-17.8-7.9l-232-256c-7.7-8.5-8.3-21.2-1.5-30.4l112-152zm38.5 39.8c-3.3 2.5-4.2 7-2.1 10.5L210.5 179.8 63.3 192c-4.1 .3-7.3 3.8-7.3 8s3.2 7.6 7.3 8l192 16c.4 0 .9 0 1.3 0l192-16c4.1-.3 7.3-3.8 7.3-8s-3.2-7.6-7.3-8l-147.2-12.3 57.4-95.6c2.1-3.5 1.2-8.1-2.1-10.5s-7.9-2-10.7 1L256 172.2 165.9 74.6c-2.8-3-7.4-3.4-10.7-1z',
-  },
-  'book-open': {
-    width: 512,
-    height: 512,
-    path: 'M256 141.3l0 309.3 .5-.2C311.1 427.7 369.7 416 428.8 416l19.2 0 0-320-19.2 0c-42.2 0-84.1 8.4-123.1 24.6-16.8 7-33.4 13.9-49.7 20.7zM230.9 61.5L256 72 281.1 61.5C327.9 42 378.1 32 428.8 32L464 32c26.5 0 48 21.5 48 48l0 352c0 26.5-21.5 48-48 48l-35.2 0c-50.7 0-100.9 10-147.7 29.5l-12.8 5.3c-7.9 3.3-16.7 3.3-24.6 0l-12.8-5.3C184.1 490 133.9 480 83.2 480L48 480c-26.5 0-48-21.5-48-48L0 80C0 53.5 21.5 32 48 32l35.2 0c50.7 0 100.9 10 147.7 29.5z',
-  },
-  shapes: {
-    width: 512,
-    height: 512,
-    path: 'M256 0c11.2 0 21.7 5.9 27.4 15.5l96 160c5.9 9.9 6.1 22.2 .4 32.2S363.5 224 352 224l-192 0c-11.5 0-22.2-6.2-27.8-16.2s-5.5-22.3 .4-32.2l96-160C234.3 5.9 244.8 0 256 0zM128 272a112 112 0 1 1 0 224 112 112 0 1 1 0-224zm200 16l112 0c22.1 0 40 17.9 40 40l0 112c0 22.1-17.9 40-40 40l-112 0c-22.1 0-40-17.9-40-40l0-112c0-22.1 17.9-40 40-40z',
-  },
-  'chevron-up': {
-    width: 448,
-    height: 512,
-    path: 'M201.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 173.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z',
-  },
-  'comment-dots': {
-    width: 512,
-    height: 512,
-    path: 'M256 480c141.4 0 256-107.5 256-240S397.4 0 256 0 0 107.5 0 240c0 54.3 19.2 104.3 51.6 144.5L2.8 476.8c-4.8 9-3.3 20 3.6 27.5s17.8 9.8 27.1 5.8l118.4-50.7C183.7 472.6 218.9 480 256 480zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z',
-  },
-  code: {
-    width: 576,
-    height: 512,
-    path: 'M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 150.6 182.6c12.5-12.5 12.5-32.8 0-45.3z',
-  },
-};
+export interface IconPack {
+  version?: 1;
+  name?: string;
+  license?: string;
+  icons: Record<string, IconEntry>;
+  aliases?: Record<string, string>;
+}
 
-const BRAND_ICONS: Record<string, IconData> = {
-  youtube: {
-    width: 576,
-    height: 512,
-    path: 'M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z',
-  },
-};
+export type IconSelection = Record<string, IconEntry>;
 
-const ICON_NAME = /^(fa[brsld]?):(?:fa-)?(.+)$/;
+const ICON_REFERENCE = /(?:^|[^A-Za-z0-9_-])([A-Za-z][A-Za-z0-9-]*:[A-Za-z0-9_-]+)/g;
+const MINDMAP_ICON = /::icon\(\s*([A-Za-z][A-Za-z0-9-]*)\s+([A-Za-z0-9_-]+)\s*\)/g;
+const STYLE_ALIASES: Record<string, string> = {
+  fa: 'fa',
+  fas: 'fa',
+  fal: 'fa',
+  fad: 'fa',
+  fak: 'fa',
+  far: 'far',
+  fab: 'fab',
+};
+const ALLOWED_BODY_TAGS: Record<string, true> = {
+  circle: true,
+  ellipse: true,
+  g: true,
+  line: true,
+  path: true,
+  polygon: true,
+  polyline: true,
+  rect: true,
+};
+const ALLOWED_BODY_ATTRIBUTES: Record<string, true> = {
+  cx: true,
+  cy: true,
+  d: true,
+  fill: true,
+  'fill-rule': true,
+  height: true,
+  opacity: true,
+  points: true,
+  r: true,
+  rx: true,
+  ry: true,
+  stroke: true,
+  'stroke-linecap': true,
+  'stroke-linejoin': true,
+  'stroke-width': true,
+  transform: true,
+  width: true,
+  x: true,
+  x1: true,
+  x2: true,
+  y: true,
+  y1: true,
+  y2: true,
+};
+const sanitizedBodies = new WeakMap<IconEntry, string | undefined>();
 
 function round(value: number): number {
   return Math.round(value * 10000) / 10000;
 }
 
-export function resolveIcon(name: string): string | undefined {
-  const match = ICON_NAME.exec(name);
-  if (!match) {
+function escapeAttribute(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function safeColor(value: string | undefined, fallback: string): string {
+  if (!value) {
+    return fallback;
+  }
+  if (/^(?:currentColor|none|transparent|[a-z]+|#[0-9a-f]{3,8})$/i.test(value)) {
+    return value;
+  }
+  if (/^(?:rgba?|hsla?)\([0-9.,% ]+\)$/i.test(value)) {
+    return value;
+  }
+  return fallback;
+}
+
+function keyCandidates(name: string): string[] {
+  const trimmed = name.trim();
+  const separator = trimmed.indexOf(':');
+  if (separator <= 0) {
+    return [trimmed];
+  }
+
+  const style = trimmed.slice(0, separator).toLowerCase();
+  let icon = trimmed.slice(separator + 1);
+  if (icon.startsWith('fa-')) {
+    icon = icon.slice(3);
+  }
+  const canonicalStyle = STYLE_ALIASES[style] ?? style;
+  return [
+    ...new Set([
+      trimmed,
+      `${style}:${icon}`,
+      `${style}:fa-${icon}`,
+      `${canonicalStyle}:${icon}`,
+      `${canonicalStyle}:fa-${icon}`,
+    ]),
+  ];
+}
+
+function findEntry(pack: IconPack, name: string): IconEntry | undefined {
+  const pending = [name];
+  const seen = new Set<string>();
+
+  while (pending.length > 0) {
+    const current = pending.shift();
+    if (!current || seen.has(current)) {
+      continue;
+    }
+    seen.add(current);
+
+    const direct = pack.icons[current];
+    if (direct) {
+      return direct;
+    }
+
+    const alias = pack.aliases?.[current];
+    if (alias) {
+      pending.push(alias);
+    }
+    for (const candidate of keyCandidates(current)) {
+      pending.push(candidate);
+    }
+  }
+
+  return undefined;
+}
+
+function parseViewBox(
+  value: IconEntry['viewBox']
+): [number, number, number, number] | undefined {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    const parts = trimmed ? trimmed.split(/[\s,]+/).map(Number) : [];
+    return parts.length === 4 &&
+      parts.every(Number.isFinite) &&
+      parts[2] > 0 &&
+      parts[3] > 0
+      ? [parts[0], parts[1], parts[2], parts[3]]
+      : undefined;
+  }
+  if (
+    Array.isArray(value) &&
+    value.length === 4 &&
+    value.every(Number.isFinite) &&
+    value[2] > 0 &&
+    value[3] > 0
+  ) {
+    return value;
+  }
+  return undefined;
+}
+
+function sanitizeBody(entry: IconEntry): string | undefined {
+  if (!entry.body || typeof DOMParser === 'undefined') {
+    return undefined;
+  }
+  if (sanitizedBodies.has(entry)) {
+    return sanitizedBodies.get(entry);
+  }
+
+  let document: Document;
+  try {
+    document = new DOMParser().parseFromString(
+      `<svg xmlns="http://www.w3.org/2000/svg">${entry.body}</svg>`,
+      'image/svg+xml'
+    );
+  } catch {
+    sanitizedBodies.set(entry, undefined);
+    return undefined;
+  }
+  const root = document.documentElement;
+  if (!root || document.querySelector('parsererror')) {
+    sanitizedBodies.set(entry, undefined);
     return undefined;
   }
 
-  const [, style, iconName] = match;
-  const icon = style === 'fab' ? BRAND_ICONS[iconName] : SOLID_ICONS[iconName];
-  if (!icon) {
+  for (const element of Array.from(document.querySelectorAll('*'))) {
+    if (element === root) {
+      continue;
+    }
+    if (ALLOWED_BODY_TAGS[element.localName] !== true) {
+      element.remove();
+      continue;
+    }
+    for (const attribute of Array.from(element.attributes)) {
+      if (ALLOWED_BODY_ATTRIBUTES[attribute.name] !== true) {
+        element.removeAttribute(attribute.name);
+      }
+    }
+  }
+
+  const markup = Array.from(document.documentElement.childNodes)
+    .map((node) => new XMLSerializer().serializeToString(node))
+    .join('');
+  sanitizedBodies.set(entry, markup);
+  return markup;
+}
+
+function iconMarkup(entry: IconEntry): string | undefined {
+  const viewBox = parseViewBox(entry.viewBox);
+  const width = entry.width ?? viewBox?.[2] ?? 24;
+  const height = entry.height ?? viewBox?.[3] ?? 24;
+  const scale = 24 / Math.max(width, height);
+  const x = (24 - width * scale) / 2 - (viewBox?.[0] ?? 0) * scale;
+  const y = (24 - height * scale) / 2 - (viewBox?.[1] ?? 0) * scale;
+  const transform =
+    Math.abs(scale - 1) > 0.0001 || x !== 0 || y !== 0
+      ? ` transform="translate(${round(x)} ${round(y)}) scale(${round(scale)})"`
+      : '';
+
+  const body = sanitizeBody(entry);
+  if (body) {
+    return `<g${transform}>${body}</g>`;
+  }
+
+  if (!entry.paths) {
     return undefined;
   }
 
-  const scale = 24 / Math.max(icon.width, icon.height);
-  const x = (24 - icon.width * scale) / 2;
-  const y = (24 - icon.height * scale) / 2;
-  return `<g transform="translate(${round(x)} ${round(y)}) scale(${round(scale)})"><path fill="currentColor" stroke="none" d="${icon.path}"/></g>`;
+  const paths = Array.isArray(entry.paths) ? entry.paths : [entry.paths];
+  if (paths.length === 0 || paths.some((path) => typeof path !== 'string')) {
+    return undefined;
+  }
+
+  const attributes = [
+    `fill="${escapeAttribute(safeColor(entry.fill, entry.stroke ? 'none' : 'currentColor'))}"`,
+  ];
+  if (entry.stroke) {
+    attributes.push(`stroke="${escapeAttribute(safeColor(entry.stroke, 'none'))}"`);
+    if (entry.strokeWidth !== undefined) {
+      attributes.push(`stroke-width="${round(entry.strokeWidth)}"`);
+    }
+  } else {
+    attributes.push('stroke="none"');
+  }
+
+  const pathElements = paths
+    .map((path) => `<path ${attributes.join(' ')} d="${escapeAttribute(path)}"/>`)
+    .join('');
+  return `<g${transform}>${pathElements}</g>`;
+}
+
+export function collectIconNames(source: string): string[] {
+  const names = new Set<string>();
+
+  for (const match of source.matchAll(ICON_REFERENCE)) {
+    names.add(match[1]);
+  }
+  for (const match of source.matchAll(MINDMAP_ICON)) {
+    names.add(`${match[1]}:${match[2]}`);
+  }
+
+  return [...names];
+}
+
+export function selectIcons(pack: IconPack | undefined, source: string): IconSelection {
+  if (!pack) {
+    return {};
+  }
+
+  const icons: IconSelection = {};
+  for (const name of collectIconNames(source)) {
+    const entry = findEntry(pack, name);
+    if (entry) {
+      icons[name] = entry;
+    }
+  }
+  return icons;
+}
+
+export function resolveIcon(name: string, icons: IconSelection | undefined): string | undefined {
+  if (!icons) {
+    return undefined;
+  }
+
+  for (const candidate of keyCandidates(name)) {
+    const entry = icons[candidate];
+    if (entry) {
+      return iconMarkup(entry);
+    }
+  }
+  return undefined;
 }

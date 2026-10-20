@@ -1,6 +1,7 @@
 .git/**
 .github/**
 .vscode/**
+icons/**
 src/**
 scripts/**
 PUBLISHING.md

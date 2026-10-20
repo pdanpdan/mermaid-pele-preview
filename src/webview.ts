@@ -1,5 +1,5 @@
 import { mount, type Mounted } from 'pele';
-import { resolveIcon } from './icons';
+import { resolveIcon, type IconSelection } from './icons';
 import { resolveMath } from './math';
 
 type VsCodeApi = {
@@ -34,6 +34,21 @@ const PELE_STYLE_VARIABLES = [
   '--pele-radius',
   ...Array.from({ length: 8 }, (_, index) => `--pele-series-${index + 1}`),
 ];
+
+function parseIconSelection(value: unknown): IconSelection | undefined {
+  let parsed = value;
+  if (typeof parsed === 'string') {
+    try {
+      parsed = JSON.parse(parsed);
+    } catch {
+      return undefined;
+    }
+  }
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    return undefined;
+  }
+  return parsed as IconSelection;
+}
 
 function hint(text: string): HTMLElement {
   const element = document.createElement('p');
@@ -82,10 +97,16 @@ class DiagramView {
   private naturalHeight = 0;
   private dragging = false;
   private dragX = 0;
+  private icons: IconSelection | undefined;
 
-  constructor(container: HTMLElement, onSave?: (svg: string, name: string) => void) {
+  constructor(
+    container: HTMLElement,
+    onSave?: (svg: string, name: string) => void,
+    icons?: IconSelection
+  ) {
     this.container = container;
     this.onSave = onSave;
+    this.icons = icons;
     this.figure = document.createElement('div');
     this.figure.className = 'pele-figure';
     for (const themeClass of THEME_CLASSES) {
@@ -135,6 +156,10 @@ class DiagramView {
     this.updateToolbar();
   }
 
+  setIcons(icons: IconSelection | undefined): void {
+    this.icons = icons;
+  }
+
   render(source: string): void {
     if (!source.trim()) {
       this.mounted?.destroy();
@@ -166,7 +191,7 @@ class DiagramView {
         zoom: false,
         responsive: false,
         maxWidth: Number.MAX_SAFE_INTEGER,
-        icons: resolveIcon,
+        icons: (name) => resolveIcon(name, this.icons),
         math: resolveMath,
         onRender: () => this.handleRender(),
       });
@@ -610,7 +635,11 @@ function initMarkdownPreview(): void {
           container.classList.add(themeClass);
         }
       }
-      const view = new DiagramView(container);
+      const view = new DiagramView(
+        container,
+        undefined,
+        parseIconSelection(block.dataset.icons)
+      );
       if (block.dataset.line) {
         view.figure.dataset.line = block.dataset.line;
       }
@@ -666,6 +695,9 @@ function initEditor(container: HTMLElement): void {
     }
     if ('font' in data) {
       applyFont(data.font);
+    }
+    if ('icons' in data) {
+      view.setIcons(parseIconSelection(data.icons));
     }
     view.render(data.text);
   });

@@ -1,11 +1,15 @@
 import * as path from 'node:path';
 import * as vscode from 'vscode';
 import { getDiagramFont, getDiagramTheme } from './config';
+import type { IconStore } from './iconStore';
 
 export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
   static readonly viewType = 'mermaidView.preview';
 
-  constructor(private readonly extensionUri: vscode.Uri) {}
+  constructor(
+    private readonly extensionUri: vscode.Uri,
+    private readonly iconStore: IconStore
+  ) {}
 
   resolveCustomTextEditor(
     document: vscode.TextDocument,
@@ -21,9 +25,11 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
     webview.html = this.getHtml(webview);
 
     const postUpdate = () => {
+      const text = document.getText();
       void webview.postMessage({
         type: 'update',
-        text: document.getText(),
+        text,
+        icons: this.iconStore.iconsFor(text),
         theme: getDiagramTheme(),
         font: getDiagramFont(),
       });
@@ -90,10 +96,13 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
       });
     });
 
+    const iconSubscription = this.iconStore.onDidChange(postUpdate);
+
     webviewPanel.onDidDispose(() => {
       clearTimeout(timer);
       changeSubscription.dispose();
       configSubscription.dispose();
+      iconSubscription.dispose();
       messageSubscription.dispose();
     });
   }
