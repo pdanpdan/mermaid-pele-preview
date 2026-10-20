@@ -1,6 +1,7 @@
 import { mount, type Mounted } from 'pele';
 import { resolveIcon, type IconSelection } from './icons';
 import { resolveMath } from './math';
+import type { DiagramThemeVariables } from './theme';
 
 type VsCodeApi = {
   postMessage(message: unknown): void;
@@ -35,6 +36,34 @@ const PELE_STYLE_VARIABLES = [
   ...Array.from({ length: 8 }, (_, index) => `--pele-series-${index + 1}`),
 ];
 
+const diagramViews = new Set<DiagramView>();
+
+function parseThemeVariables(value: unknown): DiagramThemeVariables | undefined {
+  let parsed = value;
+  if (typeof parsed === 'string') {
+    try {
+      parsed = JSON.parse(parsed);
+    } catch {
+      return undefined;
+    }
+  }
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    return undefined;
+  }
+  return parsed as DiagramThemeVariables;
+}
+
+function detectColorScheme(): 'light' | 'dark' {
+  const body = document.body.classList;
+  if (body.contains('vscode-light') || body.contains('vscode-high-contrast-light')) {
+    return 'light';
+  }
+  if (body.contains('vscode-dark') || body.contains('vscode-high-contrast')) {
+    return 'dark';
+  }
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 function parseIconSelection(value: unknown): IconSelection | undefined {
   let parsed = value;
   if (typeof parsed === 'string') {
@@ -62,6 +91,13 @@ function applyTheme(theme: unknown): void {
     document.documentElement.dataset.peleTheme = theme;
   } else {
     delete document.documentElement.dataset.peleTheme;
+  }
+  for (const view of diagramViews) {
+    if (view.figure.isConnected) {
+      view.refreshTheme();
+    } else {
+      diagramViews.delete(view);
+    }
   }
 }
 
@@ -98,15 +134,19 @@ class DiagramView {
   private dragging = false;
   private dragX = 0;
   private icons: IconSelection | undefined;
+  private themeVariables: DiagramThemeVariables | undefined;
+  private readonly appliedThemeVariables = new Set<string>();
 
   constructor(
     container: HTMLElement,
     onSave?: (svg: string, name: string) => void,
-    icons?: IconSelection
+    icons?: IconSelection,
+    themeVariables?: DiagramThemeVariables
   ) {
     this.container = container;
     this.onSave = onSave;
     this.icons = icons;
+    this.themeVariables = themeVariables;
     this.figure = document.createElement('div');
     this.figure.className = 'pele-figure';
     for (const themeClass of THEME_CLASSES) {
@@ -153,11 +193,22 @@ class DiagramView {
     this.resizeObserver = new ResizeObserver(() => this.handleResize());
     this.resizeObserver.observe(this.container);
     this.bindEvents();
+    this.applyThemeVariables();
     this.updateToolbar();
+    diagramViews.add(this);
   }
 
   setIcons(icons: IconSelection | undefined): void {
     this.icons = icons;
+  }
+
+  setThemeVariables(themeVariables: DiagramThemeVariables | undefined): void {
+    this.themeVariables = themeVariables;
+    this.applyThemeVariables();
+  }
+
+  refreshTheme(): void {
+    this.applyThemeVariables();
   }
 
   render(source: string): void {
@@ -535,7 +586,38 @@ class DiagramView {
     this.figure.classList.toggle('pele-theme-dark', dark);
     this.container.classList.toggle('pele-theme-light', light);
     this.container.classList.toggle('pele-theme-dark', dark);
+    this.applyThemeVariables();
     this.updateToolbar();
+  }
+
+  private applyThemeVariables(): void {
+    for (const name of this.appliedThemeVariables) {
+      this.figure.style.removeProperty(name);
+      this.container.style.removeProperty(name);
+    }
+    this.appliedThemeVariables.clear();
+
+    const variables = this.themeVariables?.[this.effectiveTheme()];
+    if (!variables) {
+      return;
+    }
+    for (const [name, value] of Object.entries(variables)) {
+      this.figure.style.setProperty(name, value);
+      this.container.style.setProperty(name, value);
+      this.appliedThemeVariables.add(name);
+    }
+  }
+
+  private effectiveTheme(): 'light' | 'dark' {
+    const forced = this.forcedTheme();
+    if (forced) {
+      return forced;
+    }
+    const current = document.documentElement.dataset.peleTheme;
+    if (current === 'light' || current === 'dark') {
+      return current;
+    }
+    return detectColorScheme();
   }
 
   private saveSvg(): void {
@@ -673,7 +755,8 @@ function initMarkdownPreview(): void {
       const view = new DiagramView(
         container,
         undefined,
-        parseIconSelection(block.dataset.icons)
+        parseIconSelection(block.dataset.icons),
+        parseThemeVariables(block.dataset.themeVars)
       );
       if (block.dataset.line) {
         view.figure.dataset.line = block.dataset.line;
@@ -720,6 +803,9 @@ function initEditor(container: HTMLElement): void {
       if ('font' in data) {
         applyFont(data.font);
       }
+      if ('themeVariables' in data) {
+        view.setThemeVariables(parseThemeVariables(data.themeVariables));
+      }
       return;
     }
     if (data.type !== 'update' || !('text' in data) || typeof data.text !== 'string') {
@@ -730,6 +816,9 @@ function initEditor(container: HTMLElement): void {
     }
     if ('font' in data) {
       applyFont(data.font);
+    }
+    if ('themeVariables' in data) {
+      view.setThemeVariables(parseThemeVariables(data.themeVariables));
     }
     if ('icons' in data) {
       view.setIcons(parseIconSelection(data.icons));

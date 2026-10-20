@@ -1,6 +1,6 @@
 import type { MarkdownIt } from 'markdown-it';
 import type { IconSelection } from './icons';
-import type { DiagramTheme } from './theme';
+import type { DiagramTheme, DiagramThemeVariables } from './theme';
 
 const MERMAID_LANGS: Record<string, true> = { mermaid: true };
 
@@ -13,7 +13,8 @@ export function mermaidMarkdownPlugin(
   md: MarkdownIt,
   getTheme: () => DiagramTheme,
   getFont: () => string,
-  getIcons: (source: string) => IconSelection
+  getIcons: (source: string) => IconSelection,
+  getThemeVariables: () => DiagramThemeVariables | undefined
 ): MarkdownIt {
   const defaultFence = md.renderer.rules.fence;
 
@@ -36,8 +37,13 @@ export function mermaidMarkdownPlugin(
       Object.keys(icons).length > 0
         ? ` data-icons="${md.utils.escapeHtml(JSON.stringify(icons))}"`
         : '';
+    const themeVariables = getThemeVariables();
+    const themeVariablesAttribute =
+      themeVariables && (themeVariables.light || themeVariables.dark)
+        ? ` data-theme-vars="${md.utils.escapeHtml(JSON.stringify(themeVariables))}"`
+        : '';
     const line = token.map ? ` data-line="${token.map[0]}"` : '';
-    return `<pre class="pele-mermaid${themeClass}"${fontAttribute}${iconsAttribute}${line}>${md.utils.escapeHtml(token.content)}</pre>\n`;
+    return `<pre class="pele-mermaid${themeClass}"${fontAttribute}${iconsAttribute}${themeVariablesAttribute}${line}>${md.utils.escapeHtml(token.content)}</pre>\n`;
   };
 
   return md;

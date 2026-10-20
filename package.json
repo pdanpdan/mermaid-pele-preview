@@ -183,6 +183,12 @@
           "default": "",
           "markdownDescription": "Path to an icon pack JSON or gzipped JSON file. Supports `${workspaceFolder}` and `~/`. Leave empty to auto-detect `.vscode/mermaid-icons.json`, `mermaid-icons.json`, or `.json.gz` variants in the workspace. Icons are omitted when no pack is configured.",
           "scope": "window"
+        },
+        "mermaidView.themeFile": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Path to a JSON file with Pele theme variables. Define `light`, `dark`, or both. Supports `${workspaceFolder}` and `~/`. Leave empty to auto-detect `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace.",
+          "scope": "window"
         }
       }
     },

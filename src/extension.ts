@@ -4,6 +4,7 @@ import { getDiagramFont, getDiagramTheme } from './config';
 import { MermaidEditorProvider } from './editorProvider';
 import { decodeIconPack, IconStore, parseIconPack } from './iconStore';
 import { mermaidMarkdownPlugin } from './markdown';
+import { ThemeStore } from './themeStore';
 
 const ICON_PACK_URL =
   'https://raw.githubusercontent.com/pdanpdan/mermaid-pele-preview/main/icons/font-awesome.json.gz';
@@ -11,13 +12,14 @@ const ICON_PACK_FILE = 'font-awesome.json.gz';
 
 export async function activate(context: vscode.ExtensionContext) {
   const iconStore = new IconStore(context);
-  context.subscriptions.push(iconStore);
-  await iconStore.load();
+  const themeStore = new ThemeStore(context);
+  context.subscriptions.push(iconStore, themeStore);
+  await Promise.all([iconStore.load(), themeStore.load()]);
 
   context.subscriptions.push(
     vscode.window.registerCustomEditorProvider(
       MermaidEditorProvider.viewType,
-      new MermaidEditorProvider(context.extensionUri, iconStore),
+      new MermaidEditorProvider(context.extensionUri, iconStore, themeStore),
       { supportsMultipleEditorsPerDocument: true }
     ),
     vscode.commands.registerCommand('mermaidView.openSource', async () => {
@@ -61,13 +63,15 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  const refreshMarkdownPreview = () => {
+    void vscode.commands.executeCommand('markdown.preview.refresh').then(
+      undefined,
+      () => undefined
+    );
+  };
   context.subscriptions.push(
-    iconStore.onDidChange(() => {
-      void vscode.commands.executeCommand('markdown.preview.refresh').then(
-        undefined,
-        () => undefined
-      );
-    })
+    iconStore.onDidChange(refreshMarkdownPreview),
+    themeStore.onDidChange(refreshMarkdownPreview)
   );
 
   return {
@@ -76,7 +80,8 @@ export async function activate(context: vscode.ExtensionContext) {
         md,
         getDiagramTheme,
         getDiagramFont,
-        (source) => iconStore.iconsFor(source)
+        (source) => iconStore.iconsFor(source),
+        () => themeStore.currentVariables
       );
     },
   };

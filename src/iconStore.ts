@@ -1,7 +1,7 @@
-import * as os from 'node:os';
 import * as path from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import * as vscode from 'vscode';
+import { resolveConfigFileUri } from './configFile';
 import {
   selectIcons,
   type IconEntry,
@@ -222,7 +222,10 @@ export class IconStore implements vscode.Disposable {
 
   async reload(): Promise<void> {
     const generation = ++this.generation;
-    const uri = await resolveIconPackUri(this.context);
+    const uri = await resolveConfigFileUri(this.context, CONFIGURATION_KEY, [
+      'mermaid-icons.json',
+      'mermaid-icons.json.gz',
+    ]);
     if (generation !== this.generation) {
       return;
     }
@@ -287,66 +290,3 @@ export class IconStore implements vscode.Disposable {
   }
 }
 
-async function resolveIconPackUri(
-  context: vscode.ExtensionContext
-): Promise<vscode.Uri | undefined> {
-  const configured = vscode.workspace
-    .getConfiguration('mermaidView')
-    .get<unknown>(CONFIGURATION_KEY);
-  const value = typeof configured === 'string' ? configured.trim() : '';
-
-  if (value) {
-    const expanded = expandPath(value, context);
-    return expanded;
-  }
-
-  const folder = vscode.workspace.workspaceFolders?.[0]?.uri;
-  const candidates: vscode.Uri[] = [];
-  if (folder) {
-    candidates.push(
-      vscode.Uri.joinPath(folder, '.vscode', 'mermaid-icons.json'),
-      vscode.Uri.joinPath(folder, '.vscode', 'mermaid-icons.json.gz'),
-      vscode.Uri.joinPath(folder, 'mermaid-icons.json'),
-      vscode.Uri.joinPath(folder, 'mermaid-icons.json.gz')
-    );
-  }
-  candidates.push(
-    vscode.Uri.joinPath(context.globalStorageUri, 'mermaid-icons.json'),
-    vscode.Uri.joinPath(context.globalStorageUri, 'mermaid-icons.json.gz')
-  );
-
-  for (const candidate of candidates) {
-    try {
-      await vscode.workspace.fs.stat(candidate);
-      return candidate;
-    } catch {
-      // Keep looking.
-    }
-  }
-  return undefined;
-}
-
-function expandPath(value: string, context: vscode.ExtensionContext): vscode.Uri | undefined {
-  const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri;
-  const workspacePrefix = '${workspaceFolder}';
-
-  if (value.startsWith(workspacePrefix)) {
-    if (!workspaceFolder) {
-      return undefined;
-    }
-    const relative = value.slice(workspacePrefix.length).replace(/^[/\\]/, '');
-    return relative ? vscode.Uri.joinPath(workspaceFolder, relative) : workspaceFolder;
-  }
-
-  if (value === '~' || value.startsWith('~/')) {
-    return vscode.Uri.file(path.join(os.homedir(), value.slice(2)));
-  }
-
-  if (path.isAbsolute(value)) {
-    return vscode.Uri.file(value);
-  }
-
-  return workspaceFolder
-    ? vscode.Uri.joinPath(workspaceFolder, value)
-    : vscode.Uri.joinPath(context.globalStorageUri, value);
-}
