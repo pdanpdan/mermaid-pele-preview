@@ -657,3 +657,29 @@ treemap-beta
         "Advertising": 400000
         "Events": 100000
 ```
+
+```mermaid
+flowchart LR
+    A["$$x^2$$"] --> B["Area $$\frac{\pi r^2}{2}$$"]
+    B --> C["fa:fa-code Math and icons"]
+```
+
+```mermaid
+sequenceDiagram
+    participant A as Alice
+    participant B as Bob
+    A->>B: Solve $$x^2 + y^2 = z^2$$
+    Note over A,B: $$\int_0^1 x^2\,dx$$
+```
+
+```mermaid
+stateDiagram-v2
+    state "$$E = mc^2$$" as energy
+    [*] --> energy
+    energy --> [*]: $$t \to \infty$$
+```
+
+```mermaid
+flowchart LR
+    A["$$\unknowncommand$$"] --> B["Unresolved TeX stays as text"]
+```

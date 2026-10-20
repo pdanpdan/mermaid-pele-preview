@@ -176,7 +176,8 @@
       "./media/webview.js"
     ],
     "markdown.previewStyles": [
-      "./media/preview.css"
+      "./media/preview.css",
+      "./media/temml.css"
     ]
   },
   "scripts": {

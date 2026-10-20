@@ -3,5 +3,7 @@ node_modules/
 dist/
 media/webview.js
 media/webview.js.map
+media/temml.css
+media/Temml.woff2
 *.vsix
 PUBLISHING.md

@@ -1,10 +1,14 @@
 import esbuild from 'esbuild';
-import { mkdir } from 'node:fs/promises';
+import { copyFile, mkdir } from 'node:fs/promises';
 
 const watch = process.argv.includes('--watch');
 
 await mkdir('dist', { recursive: true });
 await mkdir('media', { recursive: true });
+await Promise.all([
+  copyFile('node_modules/temml/dist/Temml-Local.css', 'media/temml.css'),
+  copyFile('node_modules/temml/dist/Temml.woff2', 'media/Temml.woff2'),
+]);
 
 const shared = {
   bundle: true,

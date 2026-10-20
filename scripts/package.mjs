@@ -67,6 +67,8 @@ await cp(path.join(root, 'THIRD_PARTY_NOTICES.md'), path.join(tempDir, 'THIRD_PA
 await cp(path.join(root, 'dist', 'extension.js'), path.join(tempDir, 'dist', 'extension.js'));
 await cp(path.join(root, 'media', 'webview.js'), path.join(tempDir, 'media', 'webview.js'));
 await cp(path.join(root, 'media', 'preview.css'), path.join(tempDir, 'media', 'preview.css'));
+await cp(path.join(root, 'media', 'temml.css'), path.join(tempDir, 'media', 'temml.css'));
+await cp(path.join(root, 'media', 'Temml.woff2'), path.join(tempDir, 'media', 'Temml.woff2'));
 await cp(path.join(root, 'syntaxes'), path.join(tempDir, 'syntaxes'), { recursive: true });
 
 const vsce = path.join(

@@ -106,6 +106,9 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
     const styleUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this.extensionUri, 'media', 'preview.css')
     );
+    const mathStyleUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this.extensionUri, 'media', 'temml.css')
+    );
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -115,6 +118,7 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https: data:; style-src ${webview.cspSource} 'unsafe-inline'; font-src ${webview.cspSource}; script-src 'nonce-${nonce}' ${webview.cspSource};">
 <title>Mermaid Preview</title>
 <link rel="stylesheet" href="${styleUri}">
+<link rel="stylesheet" href="${mathStyleUri}">
 </head>
 <body>
 <main id="root">

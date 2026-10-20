@@ -1,5 +1,6 @@
 import { mount, type Mounted } from 'pele';
 import { resolveIcon } from './icons';
+import { resolveMath } from './math';
 
 type VsCodeApi = {
   postMessage(message: unknown): void;
@@ -161,6 +162,7 @@ class DiagramView {
         responsive: false,
         maxWidth: Number.MAX_SAFE_INTEGER,
         icons: resolveIcon,
+        math: resolveMath,
         onRender: () => this.handleRender(),
       });
       if (this.mounted.error !== undefined) {
