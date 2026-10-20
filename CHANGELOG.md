@@ -18,6 +18,9 @@ All notable changes to this extension are documented here.
   for mapping other icon sets onto names Pele passes.
 - The **Mermaid: Download Font Awesome Icon Pack** command downloads the pack
   from GitHub and configures `mermaidView.iconPack`.
+- `mermaidView.themeFile` loads Pele CSS variables from a JSON file with
+  `light`, `dark`, or both palettes. An example is in
+  `examples/mermaid-theme.json`.
 
 ### Changed
 

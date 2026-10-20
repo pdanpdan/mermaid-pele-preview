@@ -40,6 +40,38 @@ Math is rendered locally with [Temml](https://temml.org/) and works in the same 
 
 Math is inserted as MathML inside the SVG, so exported SVGs show it in browsers. Some standalone SVG viewers do not render `foreignObject` content.
 
+## Themes
+
+Load a JSON file of Pele CSS variables with `mermaidView.themeFile`:
+
+```json
+"mermaidView.themeFile": "${workspaceFolder}/examples/mermaid-theme.json"
+```
+
+A theme file can define `light`, `dark`, or both:
+
+```json
+{
+  "version": 1,
+  "light": {
+    "--pele-bg": "#fdf6e3",
+    "--pele-fg": "#586e75",
+    "--pele-surface": "#eee8d5",
+    "--pele-accent": "#268bd2"
+  },
+  "dark": {
+    "--pele-bg": "#002b36",
+    "--pele-fg": "#839496",
+    "--pele-surface": "#073642",
+    "--pele-accent": "#268bd2"
+  }
+}
+```
+
+Variable names must start with `--pele-`. If a mode is not defined, that mode keeps the built-in Pele/VS Code palette. In `auto` mode the current VS Code light/dark theme selects the matching set; the per-diagram sun/moon buttons still switch between the defined sets. The repository includes a complete example in `examples/mermaid-theme.json`.
+
+The path supports `~` and `${workspaceFolder}`. Relative paths are resolved from the first workspace folder. If the setting is empty, the extension looks for `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace, then `mermaid-theme.json` in global storage.
+
 ## Syntax highlighting
 
 `.mmd` and `.mermaid` files, and fenced ` ```mermaid ` blocks in Markdown, are highlighted with a TextMate grammar vendored from [bpruitt-goddard/vscode-mermaid-syntax-highlight](https://github.com/bpruitt-goddard/vscode-mermaid-syntax-highlight) (MIT, copyright Brian Pruitt-Goddard).
@@ -140,8 +172,9 @@ Wide diagrams are scaled down to the available width by default and refit when t
 | `mermaidView.theme` | `auto` (default), `light`, `dark` | Color theme for diagrams. `auto` follows the VS Code theme; `light` and `dark` force Pele's palette. |
 | `mermaidView.fontFamily` | CSS `font-family` string; empty by default | Font family for diagram text. Leave empty to use the VS Code font. For example: `"Fira Code", monospace`. |
 | `mermaidView.iconPack` | Path to a JSON or gzipped JSON icon pack; empty by default | Icon artwork used in diagrams. Supports `~` and `${workspaceFolder}`. Empty auto-detects `.vscode/mermaid-icons.json` or `mermaid-icons.json` (plain or `.gz`) in the workspace. |
+| `mermaidView.themeFile` | Path to a Pele theme JSON file; empty by default | Theme variables for `light`, `dark`, or both. Supports `~` and `${workspaceFolder}`. Empty auto-detects `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace. |
 
-The custom editor applies theme and font changes immediately. Reopen the Markdown preview to apply changed settings to its diagrams. The per-diagram light/dark buttons override this setting for individual diagrams.
+The custom editor applies theme, font, and theme-file changes immediately. Reopen the Markdown preview to apply changed settings to its diagrams. The per-diagram light/dark buttons override the active theme for individual diagrams.
 
 ## Commands
 
