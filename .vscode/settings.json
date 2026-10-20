@@ -1,3 +1,4 @@
 {
-  "i18n-ally.localesPaths": []
+  "i18n-ally.localesPaths": [],
+  "mermaidView.iconPack": "${workspaceFolder}/icons/font-awesome.json.gz"
 }
