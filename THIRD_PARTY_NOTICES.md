@@ -2,13 +2,20 @@
 
 ## Font Awesome Free
 
-The icon paths in `src/icons.ts` are from [Font Awesome Free](https://fontawesome.com), copyright Font Awesome, Inc.
+The icon paths in `src/icons.ts` are imported from the
+[Font Awesome Free packages](https://fontawesome.com/docs/web/setup/packages),
+copyright Font Awesome, Inc.
 
 - Icons: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - Fonts: [SIL OFL 1.1](https://scripts.sil.org/OFL)
 - Code: [MIT](https://opensource.org/licenses/MIT)
 
 License details: https://fontawesome.com/license/free
+
+## Temml
+
+Math labels are typeset with [Temml](https://temml.org/), copyright (c) 2020 Ron Kok,
+licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Mermaid TextMate grammars
 
