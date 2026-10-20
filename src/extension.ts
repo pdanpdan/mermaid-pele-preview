@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 import * as vscode from 'vscode';
 import { getDiagramFont, getDiagramTheme } from './config';
 import { MermaidEditorProvider } from './editorProvider';

@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 import type { DiagramTheme } from './theme';
 
 const MERMAID_LANGS: Record<string, true> = { mermaid: true };
