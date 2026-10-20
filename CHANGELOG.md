@@ -19,8 +19,9 @@ All notable changes to this extension are documented here.
 - The **Mermaid: Download Font Awesome Icon Pack** command downloads the pack
   from GitHub and configures `mermaidView.iconPack`.
 - `mermaidView.themeFile` loads Pele CSS variables from a JSON file with
-  `light`, `dark`, or both palettes. An example is in
-  `examples/mermaid-theme.json`.
+  `light`, `dark`, or both palettes.
+- Complete light/dark example themes for Solarized, Monokai, Neutral,
+  Material, Paper, and Gruvbox in `examples/themes/`.
 
 ### Changed
 

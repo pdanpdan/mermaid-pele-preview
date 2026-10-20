@@ -45,7 +45,7 @@ Math is inserted as MathML inside the SVG, so exported SVGs show it in browsers.
 Load a JSON file of Pele CSS variables with `mermaidView.themeFile`:
 
 ```json
-"mermaidView.themeFile": "${workspaceFolder}/examples/mermaid-theme.json"
+"mermaidView.themeFile": "${workspaceFolder}/examples/themes/solarized.json"
 ```
 
 A theme file can define `light`, `dark`, or both:
@@ -68,7 +68,20 @@ A theme file can define `light`, `dark`, or both:
 }
 ```
 
-Variable names must start with `--pele-`. If a mode is not defined, that mode keeps the built-in Pele/VS Code palette. When a mode is defined, variables you omit use the built-in light/dark palette for that mode, so an incomplete custom theme does not fall back to a different VS Code palette. In `auto` mode the current VS Code light/dark theme selects the matching set; the per-diagram sun/moon buttons still switch between the defined sets. The repository includes a complete example in `examples/mermaid-theme.json`.
+Variable names must start with `--pele-`. If a mode is not defined, that mode keeps the built-in Pele/VS Code palette. When a mode is defined, variables you omit use the built-in light/dark palette for that mode, so an incomplete custom theme does not fall back to a different VS Code palette. In `auto` mode the current VS Code light/dark theme selects the matching set; the per-diagram sun/moon buttons still switch between the defined sets.
+
+Complete light/dark examples are in `examples/themes/`:
+
+| Theme | File |
+| --- | --- |
+| Solarized | `examples/themes/solarized.json` |
+| Monokai | `examples/themes/monokai.json` |
+| Neutral | `examples/themes/neutral.json` |
+| Material | `examples/themes/material.json` |
+| Paper | `examples/themes/paper.json` |
+| Gruvbox | `examples/themes/gruvbox.json` |
+
+Copy one to `.vscode/mermaid-theme.json` for auto-detection, or point `mermaidView.themeFile` at it.
 
 The path supports `~` and `${workspaceFolder}`. Relative paths are resolved from the first workspace folder. If the setting is empty, the extension looks for `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace, then `mermaid-theme.json` in global storage.
 
