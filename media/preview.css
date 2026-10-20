@@ -30,6 +30,15 @@
 }
 
 .pele-figure {
+  --pele-toolbar-fg: var(--vscode-editor-foreground, #1f1f1f);
+  --pele-toolbar-muted: var(--vscode-descriptionForeground, #6e6e6e);
+  --pele-toolbar-button-bg: var(--vscode-editorWidget-background, #f3f3f3);
+  --pele-toolbar-border: var(--vscode-editorWidget-border, #8a8a8a);
+  --pele-toolbar-hover-bg: var(--vscode-toolbar-hoverBackground, #e6e6e6);
+  --pele-toolbar-active-bg: var(--vscode-button-background, #007acc);
+  --pele-toolbar-active-fg: var(--vscode-button-foreground, #ffffff);
+  --pele-toolbar-focus: var(--vscode-focusBorder, #007acc);
+
   position: relative;
   margin: 1.5em 0;
 }
@@ -48,13 +57,9 @@
   align-items: flex-end;
   gap: 3px;
   max-width: calc(100% - 8px);
-  padding: 4px;
-  border-radius: 5px;
-  background: var(--vscode-editor-background, #ffffff);
-  color: var(--vscode-editor-foreground, #1f1f1f);
+  color: var(--pele-toolbar-fg);
   font-family: var(--vscode-font-family, sans-serif);
   font-size: 12px;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 18%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 120ms ease;
@@ -84,24 +89,24 @@
   min-width: 24px;
   height: 24px;
   padding: 0 6px;
-  border: 1px solid var(--vscode-editorWidget-border, #8a8a8a);
+  border: 1px solid var(--pele-toolbar-border);
   border-radius: 4px;
-  background: var(--vscode-editorWidget-background, #f3f3f3);
-  color: var(--vscode-editor-foreground, #1f1f1f);
+  background: var(--pele-toolbar-button-bg);
+  color: var(--pele-toolbar-fg);
   font: inherit;
   line-height: 1;
   cursor: pointer;
 }
 
 .pele-toolbar button:hover:not(:disabled) {
-  background: var(--vscode-toolbar-hoverBackground, #e6e6e6);
+  background: var(--pele-toolbar-hover-bg);
 }
 
 .pele-toolbar button[aria-pressed='true'],
 .pele-toolbar button[aria-pressed='true']:hover:not(:disabled) {
-  border-color: var(--vscode-button-background, #007acc);
-  background: var(--vscode-button-background, #007acc);
-  color: var(--vscode-button-foreground, #ffffff);
+  border-color: var(--pele-toolbar-active-bg);
+  background: var(--pele-toolbar-active-bg);
+  color: var(--pele-toolbar-active-fg);
 }
 
 .pele-toolbar button:disabled {
@@ -110,7 +115,7 @@
 }
 
 .pele-toolbar button:focus-visible {
-  outline: 1px solid var(--vscode-focusBorder, #007acc);
+  outline: 1px solid var(--pele-toolbar-focus);
   outline-offset: 1px;
 }
 
@@ -128,9 +133,33 @@
 
 .pele-zoom-level {
   min-width: 3em;
-  color: var(--vscode-descriptionForeground, #6e6e6e);
+  color: var(--pele-toolbar-muted);
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.pele-figure.pele-theme-light,
+:where(html[data-pele-theme='light']) .pele-figure {
+  --pele-toolbar-fg: #1f1f1f;
+  --pele-toolbar-muted: #6e6e6e;
+  --pele-toolbar-button-bg: #f3f3f3;
+  --pele-toolbar-border: #8a8a8a;
+  --pele-toolbar-hover-bg: #e6e6e6;
+  --pele-toolbar-active-bg: #5b7bd5;
+  --pele-toolbar-active-fg: #ffffff;
+  --pele-toolbar-focus: #5b7bd5;
+}
+
+.pele-figure.pele-theme-dark,
+:where(html[data-pele-theme='dark']) .pele-figure {
+  --pele-toolbar-fg: #cecdc3;
+  --pele-toolbar-muted: #878580;
+  --pele-toolbar-button-bg: #1c1b1a;
+  --pele-toolbar-border: #403e3c;
+  --pele-toolbar-hover-bg: #282726;
+  --pele-toolbar-active-bg: #4385be;
+  --pele-toolbar-active-fg: #ffffff;
+  --pele-toolbar-focus: #4385be;
 }
 
 .pele-viewport {

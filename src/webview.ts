@@ -88,6 +88,11 @@ class DiagramView {
     this.onSave = onSave;
     this.figure = document.createElement('div');
     this.figure.className = 'pele-figure';
+    for (const themeClass of THEME_CLASSES) {
+      if (container.classList.contains(themeClass)) {
+        this.figure.classList.add(themeClass);
+      }
+    }
 
     this.toolbar = document.createElement('div');
     this.toolbar.className = 'pele-toolbar';
@@ -488,10 +493,10 @@ class DiagramView {
   }
 
   private forcedTheme(): 'light' | 'dark' | undefined {
-    if (this.container.classList.contains('pele-theme-light')) {
+    if (this.figure.classList.contains('pele-theme-light')) {
       return 'light';
     }
-    if (this.container.classList.contains('pele-theme-dark')) {
+    if (this.figure.classList.contains('pele-theme-dark')) {
       return 'dark';
     }
     return undefined;
@@ -499,8 +504,12 @@ class DiagramView {
 
   private toggleTheme(theme: 'light' | 'dark'): void {
     const next = this.forcedTheme() === theme ? undefined : theme;
-    this.container.classList.toggle('pele-theme-light', next === 'light');
-    this.container.classList.toggle('pele-theme-dark', next === 'dark');
+    const light = next === 'light';
+    const dark = next === 'dark';
+    this.figure.classList.toggle('pele-theme-light', light);
+    this.figure.classList.toggle('pele-theme-dark', dark);
+    this.container.classList.toggle('pele-theme-light', light);
+    this.container.classList.toggle('pele-theme-dark', dark);
     this.updateToolbar();
   }
 
