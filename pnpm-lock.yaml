@@ -167,6 +167,9 @@ catalogs:
     '@fortawesome/free-brands-svg-icons':
       specifier: ^7.3.1
       version: 7.3.1
+    '@fortawesome/free-regular-svg-icons':
+      specifier: ^7.3.1
+      version: 7.3.1
     '@fortawesome/free-solid-svg-icons':
       specifier: ^7.3.1
       version: 7.3.1
@@ -191,6 +194,9 @@ catalogs:
     oxlint:
       specifier: ^1.89.0
       version: 1.89.0
+    oxlint-tsgolint:
+      specifier: ^7.0.2004
+      version: 7.0.2004
     pele:
       specifier: ^1.8.0
       version: 1.8.0
@@ -210,6 +216,9 @@ importers:
         version: 1.8.0
     devDependencies:
       '@fortawesome/free-brands-svg-icons':
+        specifier: 'catalog:'
+        version: 7.3.1
+      '@fortawesome/free-regular-svg-icons':
         specifier: 'catalog:'
         version: 7.3.1
       '@fortawesome/free-solid-svg-icons':
@@ -237,7 +246,7 @@ importers:
         specifier: 'catalog:'
         version: 1.89.0(oxlint-tsgolint@7.0.2004)
       oxlint-tsgolint:
-        specifier: ^7.0.2004
+        specifier: 'catalog:'
         version: 7.0.2004
       temml:
         specifier: 'catalog:'
@@ -462,6 +471,10 @@ packages:
 
   '@fortawesome/free-brands-svg-icons@7.3.1':
     resolution: {integrity: sha512-8eiNzycuFhy3mZsi5EVO8JpO3H8l7/kSCl4Gk4iUew9hJuzYFqAAD6kqgeEup3+YZ9hL+5cjjorGzrRLkYuURg==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/free-regular-svg-icons@7.3.1':
+    resolution: {integrity: sha512-q1EsmL7Q8DDnkRBUjSvrxbq7c9oVwwVjCn/xa5apKmdp65YSgzUg2y0Ltnd5aDbT6GdAQQdXql5Ha90ArqIReQ==}
     engines: {node: '>=6'}
 
   '@fortawesome/free-solid-svg-icons@7.3.1':
@@ -1384,6 +1397,10 @@ snapshots:
   '@fortawesome/fontawesome-common-types@7.3.1': {}
 
   '@fortawesome/free-brands-svg-icons@7.3.1':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 7.3.1
+
+  '@fortawesome/free-regular-svg-icons@7.3.1':
     dependencies:
       '@fortawesome/fontawesome-common-types': 7.3.1
 

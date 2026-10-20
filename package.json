@@ -195,6 +195,7 @@
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "catalog:",
+    "@fortawesome/free-regular-svg-icons": "catalog:",
     "@fortawesome/free-solid-svg-icons": "catalog:",
     "@types/markdown-it": "catalog:",
     "@types/node": "catalog:",
@@ -203,7 +204,7 @@
     "esbuild": "catalog:",
     "markdown-it": "catalog:",
     "oxlint": "catalog:",
-    "oxlint-tsgolint": "^7.0.2004",
+    "oxlint-tsgolint": "catalog:",
     "temml": "catalog:",
     "typescript": "catalog:"
   }
