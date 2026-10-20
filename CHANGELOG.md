@@ -28,6 +28,9 @@ All notable changes to this extension are documented here.
 
 ### Fixed
 
+- Exported SVGs now embed literal resolved colors instead of CSS variables, so
+  standalone viewers render the intended foreground and icons on the exported
+  background.
 - Type imports after the markdown-it 15 update.
 - Node type resolution after the `@types/node` update.
 

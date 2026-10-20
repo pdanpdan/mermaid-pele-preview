@@ -556,6 +556,40 @@ class DiagramView {
     this.downloadSvg(svg, name);
   }
 
+  private flattenStyles(source: SVGSVGElement, clone: SVGSVGElement): void {
+    const originals = [source, ...source.querySelectorAll<Element>('*')];
+    const copies = [clone, ...clone.querySelectorAll<Element>('*')];
+    const rootColor = getComputedStyle(source).color;
+
+    for (let index = 0; index < originals.length && index < copies.length; index++) {
+      const original = originals[index];
+      const copy = copies[index];
+      const computed = getComputedStyle(original);
+
+      if (copy.namespaceURI === SVG_NAMESPACE) {
+        for (const property of ['fill', 'stroke', 'stroke-width']) {
+          const value = computed.getPropertyValue(property).trim();
+          if (value) {
+            copy.setAttribute(property, value);
+          }
+        }
+        const radius = computed.getPropertyValue('rx').trim();
+        if (radius && radius !== 'auto') {
+          copy.setAttribute('rx', radius);
+        }
+      } else {
+        const color = computed.getPropertyValue('color').trim();
+        if (color) {
+          (copy as SVGElement).style.setProperty('color', color);
+        }
+      }
+    }
+
+    if (rootColor) {
+      clone.style.setProperty('color', rootColor);
+    }
+  }
+
   private serializeSvg(): string {
     const source = this.svg;
     if (!source) {
@@ -569,6 +603,7 @@ class DiagramView {
     clone.style.removeProperty('height');
     clone.style.removeProperty('margin-left');
     clone.style.removeProperty('max-width');
+    this.flattenStyles(source, clone);
 
     const computed = getComputedStyle(this.container);
     const variables = new Set(PELE_STYLE_VARIABLES);
