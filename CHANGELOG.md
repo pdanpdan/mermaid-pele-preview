@@ -1,0 +1,48 @@
+# Changelog
+
+All notable changes to this extension are documented here.
+
+## [0.3.0] - 2026-10-20
+
+### Added
+
+- Math labels in Pele diagrams. `$$...$$` expressions are typeset locally with
+  Temml and work in flowcharts, sequence diagrams, state diagrams, class
+  diagrams, ER diagrams, mindmaps, kanban boards, block diagrams, requirement
+  diagrams, and use case diagrams.
+- Official Font Awesome Free packages for the diagram icon resolver.
+
+### Changed
+
+- The toolbar and its buttons now follow the diagram's forced light or dark theme.
+- Removed the rounded container behind the diagram toolbar.
+- Updated Pele to 1.8.0.
+- Updated TypeScript, markdown-it, esbuild, oxlint, vsce, and pnpm.
+
+### Fixed
+
+- Type imports after the markdown-it 15 update.
+- Node type resolution after the `@types/node` update.
+
+## [0.2.0] - 2026-10-19
+
+### Added
+
+- Per-diagram light and dark theme buttons.
+- Save SVG action for custom editors and Markdown previews.
+- Zoom percentage, zoom in/out, and Fit controls.
+- `mermaidView.theme` and `mermaidView.fontFamily` settings.
+
+### Changed
+
+- Zoom steps snap to whole 100% levels.
+- Wide diagrams are fitted to the available width and refit when resized.
+
+## [0.1.0] - 2026-10-19
+
+### Added
+
+- Initial release.
+- `.mmd` and `.mermaid` custom preview editors.
+- Mermaid fenced code block rendering in Markdown previews.
+- Pele rendering with no Mermaid.js runtime.

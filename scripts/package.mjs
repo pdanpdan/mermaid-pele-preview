@@ -62,6 +62,7 @@ await mkdir(path.join(tempDir, 'media'), { recursive: true });
 await writeFile(path.join(tempDir, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 await writeFile(path.join(tempDir, '.vscodeignore'), '.vscodeignore\n');
 await cp(path.join(root, 'README.md'), path.join(tempDir, 'README.md'));
+await cp(path.join(root, 'CHANGELOG.md'), path.join(tempDir, 'CHANGELOG.md'));
 await cp(path.join(root, 'LICENSE'), path.join(tempDir, 'LICENSE'));
 await cp(path.join(root, 'THIRD_PARTY_NOTICES.md'), path.join(tempDir, 'THIRD_PARTY_NOTICES.md'));
 await cp(path.join(root, 'dist', 'extension.js'), path.join(tempDir, 'dist', 'extension.js'));
