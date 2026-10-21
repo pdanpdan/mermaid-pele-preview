@@ -400,6 +400,7 @@ class DiagramView {
       return;
     }
 
+    this.syncIconColors();
     const widthAttribute = Number(svg.getAttribute('width'));
     const heightAttribute = Number(svg.getAttribute('height'));
     const viewBox = svg.viewBox.baseVal;
@@ -603,13 +604,35 @@ class DiagramView {
       this.container.classList.toggle(themeClass, enabled);
     }
 
-    if (!variables) {
+    if (variables) {
+      for (const [name, value] of Object.entries(variables)) {
+        this.figure.style.setProperty(name, value);
+        this.container.style.setProperty(name, value);
+        this.appliedThemeVariables.add(name);
+      }
+    }
+    this.syncIconColors();
+  }
+
+  private syncIconColors(): void {
+    const svg = this.svg;
+    if (!svg) {
       return;
     }
-    for (const [name, value] of Object.entries(variables)) {
-      this.figure.style.setProperty(name, value);
-      this.container.style.setProperty(name, value);
-      this.appliedThemeVariables.add(name);
+    // Pele applies node label colors as text fill, while icons use
+    // currentColor inherited from the SVG root. Match icons to their label.
+    for (const icon of svg.querySelectorAll<SVGSVGElement>('svg.pele-icon')) {
+      const node = icon.closest('.pele-node');
+      const label = node?.querySelector<SVGElement>('.pele-label');
+      if (!label) {
+        continue;
+      }
+      const fill = getComputedStyle(label).fill.trim();
+      if (fill && fill !== 'none' && !fill.startsWith('url(')) {
+        icon.style.setProperty('color', fill);
+      } else {
+        icon.style.removeProperty('color');
+      }
     }
   }
 

@@ -2,6 +2,13 @@
 
 All notable changes to this extension are documented here.
 
+## [0.3.1] - 2026-10-21
+
+### Fixed
+
+- Icons inside nodes with an explicit label color now use that color in light
+  mode instead of inheriting the diagram foreground.
+
 ## [0.3.0] - 2026-10-20
 
 ### Added
