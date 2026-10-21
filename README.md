@@ -8,6 +8,16 @@ A VS Code extension that renders Mermaid diagrams with [Pele](https://github.com
 - Hover or focus a diagram to reveal zoom, per-diagram light/dark, and **Save SVG** controls. They are hidden when not hovered and omitted from print.
 - Rendering happens in the webview with Pele's synchronous renderer. Math labels are typeset locally with Temml. No Mermaid.js runtime is used.
 
+## Installation
+
+Install **Mermaid Pele Preview** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=pdanpdan.mermaid-pele-preview).
+
+You can also install it from the command line:
+
+```sh
+code --install-extension pdanpdan.mermaid-pele-preview
+```
+
 ## Usage
 
 Open a `.mmd` or `.mermaid` file. The custom editor shows the rendered diagram and updates as the text changes.
