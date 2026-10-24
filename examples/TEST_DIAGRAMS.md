@@ -683,3 +683,106 @@ stateDiagram-v2
 flowchart LR
     A["$$\unknowncommand$$"] --> B["Unresolved TeX stays as text"]
 ```
+
+## Pele 1.9 features
+
+### Rich label HTML
+
+```mermaid
+flowchart LR
+    H["H<sub>2</sub>O and x<sup>2</sup>"] --> M["<code>code()</code> <kbd>Ctrl</kbd> <samp>out</samp> <tt>mono</tt>"]
+    M --> D["<u>under</u> <ins>inserted</ins> <var>x</var> <cite>book</cite> <dfn>term</dfn>"]
+    D --> L["List<T> stays literal"]
+```
+
+### Soft hyphen and zero-width wrapping
+
+```mermaid
+flowchart LR
+    %% U+200B is the invisible character between "zero" and "width".
+    A["A long label with a soft&shy;hyphen and a zero​width space"] --> B["Wrapped by Pele"]
+```
+
+### State transition curves
+
+```mermaid
+---
+config:
+  flowchart:
+    curve: basis
+---
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Running: start
+    Running --> Idle: stop
+    Running --> [*]
+```
+
+## Pele 1.10 features
+
+### Comment directly after a token
+
+```mermaid
+venn-beta
+    set A%% note directly after the token
+    set B
+    union A,B
+```
+
+### Comments in quadrant and XY charts
+
+```mermaid
+quadrantChart
+    title Inline comments
+    x-axis Low --> High
+    y-axis Low --> High
+    Campaign A: [0.8, 0.2]%% keeps the bracket
+    Campaign B: [0.2, 0.8]
+```
+
+```mermaid
+---
+config:
+  xyChart:
+    showDataLabel: true
+---
+xychart-beta
+    title "Inline comment after bar"
+    x-axis [a, b, c]
+    y-axis "Value" 0 --> 10
+    bar [4, 6, 8]%% keeps the bracket
+```
+
+### Empty title
+
+```mermaid
+sequenceDiagram
+    title
+    Alice->>Bob: The title line is empty
+```
+
+### Sankey value formatting
+
+```mermaid
+---
+config:
+  sankey:
+    showValues: true
+    prefix: "&#8776;"
+    suffix: "&nbsp;%"
+---
+sankey-beta
+Énergie,Chaleur,50%
+Chaleur,Logements,25
+Logements,Losses,25
+```
+
+### XY chart with collapsed y bounds
+
+```mermaid
+xychart-beta
+    title "Collapsed y bounds"
+    x-axis [a, b, c]
+    y-axis "Value" 10 --> 10
+    bar [3, 5, 7]
+```

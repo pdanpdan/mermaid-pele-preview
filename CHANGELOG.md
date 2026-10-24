@@ -2,6 +2,15 @@
 
 All notable changes to this extension are documented here.
 
+## [0.5.0] - 2026-10-24
+
+### Changed
+
+- Updated Pele to 1.10.0.
+- Added examples for Pele 1.9 rich labels, text wrapping, and state curves,
+  and for Pele 1.10 comments, empty titles, Sankey formatting, and XY chart
+  bounds.
+
 ## [0.4.0] - 2026-10-24
 
 ### Changed
