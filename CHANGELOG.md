@@ -6,6 +6,8 @@ All notable changes to this extension are documented here.
 
 ### Changed
 
+- Reworked the diagram toolbar into joined zoom and theme pills, with
+  percentage, zoom out/in, reset, light/dark, and Save SVG controls.
 - Updated Pele to 1.9.0. Diagram labels now support `<sub>`, `<sup>`,
   `<code>`, `<kbd>`, `<samp>`, `<tt>`, `<u>`, `<ins>`, `<var>`, `<cite>`, and
   `<dfn>`.

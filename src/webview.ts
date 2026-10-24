@@ -118,9 +118,9 @@ class DiagramView {
   private readonly saveButton: HTMLButtonElement;
   private readonly lightButton: HTMLButtonElement;
   private readonly darkButton: HTMLButtonElement;
-  private readonly zoomIn: HTMLButtonElement;
   private readonly zoomOut: HTMLButtonElement;
-  private readonly fitButton: HTMLButtonElement;
+  private readonly zoomIn: HTMLButtonElement;
+  private readonly resetButton: HTMLButtonElement;
   private readonly onSave: ((svg: string, name: string) => void) | undefined;
   private readonly resizeObserver: ResizeObserver;
   private mounted: Mounted | undefined;
@@ -175,17 +175,24 @@ class DiagramView {
     this.darkButton = this.createButton('dark', '☾', 'Force dark theme');
     this.lightButton.setAttribute('aria-pressed', 'false');
     this.darkButton.setAttribute('aria-pressed', 'false');
-    this.zoomOut = this.createButton('out', '−', 'Zoom out');
-    this.zoomIn = this.createButton('in', '+', 'Zoom in');
-    this.fitButton = this.createButton('fit', 'Fit', 'Fit diagram to width');
+    this.zoomOut = this.createIconButton('out', 'M5 12h14', 'Zoom out');
+    this.zoomIn = this.createIconButton('in', 'M5 12h14M12 5v14', 'Zoom in');
+    this.resetButton = this.createIconButton(
+      'reset',
+      'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8M3 3v5h5',
+      'Reset zoom'
+    );
 
     const zoomRow = document.createElement('div');
-    zoomRow.className = 'pele-toolbar-row';
-    zoomRow.append(this.zoomLevel, this.zoomOut, this.zoomIn, this.fitButton);
+    zoomRow.className = 'pele-toolbar-row pele-toolbar-pill';
+    zoomRow.append(this.zoomLevel, this.zoomOut, this.zoomIn, this.resetButton);
 
     const actionRow = document.createElement('div');
     actionRow.className = 'pele-toolbar-row';
-    actionRow.append(this.lightButton, this.darkButton, this.saveButton);
+    const themePill = document.createElement('div');
+    themePill.className = 'pele-toolbar-pill';
+    themePill.append(this.lightButton, this.darkButton);
+    actionRow.append(themePill, this.saveButton);
 
     this.toolbar.append(zoomRow, actionRow);
 
@@ -279,13 +286,32 @@ class DiagramView {
     return button;
   }
 
+  private createIconButton(action: string, path: string, label: string): HTMLButtonElement {
+    const button = this.createButton(action, '', label);
+    const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
+    svg.setAttribute('width', '18');
+    svg.setAttribute('height', '18');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    const line = document.createElementNS(SVG_NAMESPACE, 'path');
+    line.setAttribute('d', path);
+    svg.append(line);
+    button.append(svg);
+    return button;
+  }
+
   private bindEvents(): void {
     this.saveButton.addEventListener('click', () => this.saveSvg());
     this.lightButton.addEventListener('click', () => this.toggleTheme('light'));
     this.darkButton.addEventListener('click', () => this.toggleTheme('dark'));
     this.zoomIn.addEventListener('click', () => this.zoomBy(1));
     this.zoomOut.addEventListener('click', () => this.zoomBy(-1));
-    this.fitButton.addEventListener('click', () => {
+    this.resetButton.addEventListener('click', () => {
       this.scale = this.fitScale;
       this.fitMode = true;
       this.offsetX = 0;
@@ -572,7 +598,7 @@ class DiagramView {
     const atFit = Math.abs(this.scale - this.fitScale) < 0.001;
     this.zoomIn.disabled = this.scale >= MAX_ZOOM - 0.001;
     this.zoomOut.disabled = this.scale <= this.fitScale + 0.001;
-    this.fitButton.disabled = atFit;
+    this.resetButton.disabled = atFit;
   }
 
   private forcedTheme(): 'light' | 'dark' | undefined {
