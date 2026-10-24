@@ -2,6 +2,14 @@
 
 All notable changes to this extension are documented here.
 
+## [0.4.0] - 2026-10-24
+
+### Changed
+
+- Updated Pele to 1.9.0. Diagram labels now support `<sub>`, `<sup>`,
+  `<code>`, `<kbd>`, `<samp>`, `<tt>`, `<u>`, `<ins>`, `<var>`, `<cite>`, and
+  `<dfn>`.
+
 ## [0.3.1] - 2026-10-21
 
 ### Fixed
