@@ -27,6 +27,8 @@ const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 const PELE_STYLE_VARIABLES = [
   '--pele-bg',
   '--pele-fg',
+  '--pele-fg-on-light',
+  '--pele-fg-on-dark',
   '--pele-muted',
   '--pele-line',
   '--pele-surface',

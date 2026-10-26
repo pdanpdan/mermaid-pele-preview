@@ -80,6 +80,8 @@ A theme file can define `light`, `dark`, or both:
 
 Variable names must start with `--pele-`. If a mode is not defined, that mode keeps the built-in Pele/VS Code palette. When a mode is defined, variables you omit use the built-in light/dark palette for that mode, so an incomplete custom theme does not fall back to a different VS Code palette. In `auto` mode the current VS Code light/dark theme selects the matching set; the per-diagram sun/moon buttons still switch between the defined sets.
 
+Set `--pele-fg-on-light` and `--pele-fg-on-dark` to control label and edge contrast on explicit fills. Pele chooses whichever one contrasts more with the fill.
+
 Complete light/dark examples are in `examples/themes/`:
 
 | Theme | File |

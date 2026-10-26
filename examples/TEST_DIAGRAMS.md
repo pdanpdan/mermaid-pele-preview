@@ -898,3 +898,55 @@ treemap-beta
         "Large section"
             "C": 1000
 ```
+
+## Pele 1.12 features
+
+### Contrast-aware labels on explicit fills
+
+```mermaid
+flowchart LR
+    A[Light fill]
+    B[Dark fill]
+    C[Warm class]
+    D[Cool class]
+    A --> B
+    B --> C
+    C --> D
+    style A fill:#f5e0b8,stroke:#b58b3a
+    style B fill:#263238,stroke:#546e7a
+    classDef warm fill:#ffd54f,stroke:#a67c00
+    classDef cool fill:#0d47a1,stroke:#82aaff
+    class C warm
+    class D cool
+```
+
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    rect rgb(255, 213, 79)
+        Alice->>Bob: Light fill
+    end
+    rect rgb(13, 71, 161)
+        Alice->>Bob: Dark fill
+    end
+```
+
+### Full-opacity subgraph fills
+
+```mermaid
+flowchart LR
+    subgraph S["Filled subgraph"]
+        direction TB
+        A --> B
+    end
+    style S fill:#ffd54f,stroke:#a67c00
+```
+
+### Percent escapes in links
+
+```mermaid
+flowchart LR
+    A[Search link] --> B
+    click A "https://example.com/search?q=a%20b&x=1%26y"
+```

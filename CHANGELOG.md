@@ -2,6 +2,19 @@
 
 All notable changes to this extension are documented here.
 
+## [0.7.0] - 2026-10-26
+
+### Changed
+
+- Updated Pele to 1.12.0.
+- Added `--pele-fg-on-light` and `--pele-fg-on-dark` to the built-in theme
+  defaults and all example themes.
+
+### Added
+
+- Example tests for contrast-aware labels, full-opacity subgraph fills, and
+  percent escapes in links.
+
 ## [0.6.0] - 2026-10-26
 
 ### Added

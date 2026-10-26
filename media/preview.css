@@ -1,6 +1,8 @@
 .pele-diagram {
   --pele-bg: var(--vscode-editor-background, #ffffff);
   --pele-fg: var(--vscode-editor-foreground, #1f1f1f);
+  --pele-fg-on-light: #1f1f1f;
+  --pele-fg-on-dark: #ffffff;
   --pele-muted: var(--vscode-descriptionForeground, #6e6e6e);
   --pele-line: var(--vscode-editor-foreground, #1f1f1f);
   --pele-surface: var(--vscode-editorWidget-background, #f3f3f3);
