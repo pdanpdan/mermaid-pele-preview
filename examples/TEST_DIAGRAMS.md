@@ -874,3 +874,27 @@ quadrantChart
     P: [0.25, 0.4375]
     Q: [0.25, 0.4175]
 ```
+
+## Pele 1.11 features
+
+### Parallel block edge labels
+
+```mermaid
+block-beta
+    columns 2
+    A["A"] B["B"]
+    A-- "forward" -->B
+    A-- "reverse" -->B
+```
+
+### Crowded treemap
+
+```mermaid
+treemap-beta
+    "Root"
+        "Tiny section"
+            "A": 100
+            "B": 100
+        "Large section"
+            "C": 1000
+```

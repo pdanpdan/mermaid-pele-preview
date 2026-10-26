@@ -2,6 +2,16 @@
 
 All notable changes to this extension are documented here.
 
+## [0.5.2] - 2026-10-26
+
+### Changed
+
+- Updated Pele to 1.11.0.
+
+### Added
+
+- Example diagrams for parallel block edge labels and crowded treemaps.
+
 ## [0.5.1] - 2026-10-26
 
 ### Changed
