@@ -786,3 +786,91 @@ xychart-beta
     y-axis "Value" 10 --> 10
     bar [3, 5, 7]
 ```
+
+## Pele 1.10.1 fixes
+
+### Subgraph direction with outward links
+
+```mermaid
+flowchart LR
+    subgraph S["Sources"]
+        direction TB
+        s1[Files]
+        s2[Database]
+        s3[API]
+        s4[Events]
+    end
+    subgraph P["Processing"]
+        direction TB
+        p1[Validate]
+        p2[Transform]
+        p3[Aggregate]
+    end
+    subgraph O["Outputs"]
+        direction TB
+        o1[Dashboard]
+        o2[Report]
+    end
+    s1 --> p2
+    s2 --> p1
+    s3 --> p1
+    s4 --> p3
+    p1 --> o1
+    p2 --> o1
+    p3 --> o2
+```
+
+### Keyword-prefixed names
+
+```mermaid
+venn-beta
+    set set-theory
+    set text-books
+    union set-theory,text-books["both"]
+```
+
+```mermaid
+radar-beta
+    axis circles, trueNorth, titles
+    curve sample{circles: 1, trueNorth: 2, titles: 3}
+    max 3
+    min 0
+```
+
+```mermaid
+architecture-beta
+    service titles(cloud)[Titles]
+```
+
+```mermaid
+gitGraph
+    commit
+    branch titles
+    checkout titles
+    commit
+```
+
+```mermaid
+treemap-beta
+    "titles": 10
+    "other": 5
+```
+
+### Sankey rows with surrounding whitespace
+
+```mermaid
+sankey-beta
+
+  A, B, 5
+  B, C, 3
+
+```
+
+### Quadrant labels with empty quadrant labels
+
+```mermaid
+quadrantChart
+    title Empty quadrant labels
+    P: [0.25, 0.4375]
+    Q: [0.25, 0.4175]
+```

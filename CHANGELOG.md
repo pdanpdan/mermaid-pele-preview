@@ -2,6 +2,17 @@
 
 All notable changes to this extension are documented here.
 
+## [0.5.1] - 2026-10-26
+
+### Changed
+
+- Updated Pele to 1.10.1.
+
+### Added
+
+- Example diagrams for Pele 1.10.1 subgraph direction, keyword-prefixed
+  names, Sankey row whitespace, and quadrant label placement.
+
 ## [0.5.0] - 2026-10-24
 
 ### Changed
