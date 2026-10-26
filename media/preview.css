@@ -10,7 +10,7 @@
   --pele-critical: var(--vscode-charts-red, #e45756);
   --pele-error: var(--vscode-errorForeground, #e45756);
   --pele-font: var(--mermaid-view-font, var(--vscode-font-family, sans-serif));
-  --pele-font-mono: var(--vscode-editor-font-family, monospace);
+  --pele-font-mono: var(--mermaid-view-font-mono, var(--vscode-editor-font-family, monospace));
   --pele-series-1: var(--vscode-charts-blue, #4c78a8);
   --pele-series-2: var(--vscode-charts-orange, #f58518);
   --pele-series-3: var(--vscode-charts-green, #54a24b);

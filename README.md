@@ -190,14 +190,37 @@ Wide diagrams are scaled down to the available width by default and refit when t
 
 ## Settings
 
+### Appearance
+
 | Setting | Values | Description |
 | --- | --- | --- |
 | `mermaidView.theme` | `auto` (default), `light`, `dark` | Color theme for diagrams. `auto` follows the VS Code theme; `light` and `dark` force Pele's palette. |
-| `mermaidView.fontFamily` | CSS `font-family` string; empty by default | Font family for diagram text. Leave empty to use the VS Code font. For example: `"Fira Code", monospace`. |
-| `mermaidView.iconPack` | Path to a JSON or gzipped JSON icon pack; empty by default | Icon artwork used in diagrams. Supports `~` and `${workspaceFolder}`. Empty auto-detects `.vscode/mermaid-icons.json` or `mermaid-icons.json` (plain or `.gz`) in the workspace. |
 | `mermaidView.themeFile` | Path to a Pele theme JSON file; empty by default | Theme variables for `light`, `dark`, or both. Supports `~` and `${workspaceFolder}`. Empty auto-detects `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace. |
 
-The custom editor applies theme, font, and theme-file changes immediately. Reopen the Markdown preview to apply changed settings to its diagrams. The per-diagram light/dark buttons override the active theme for individual diagrams.
+### Typography
+
+| Setting | Values | Description |
+| --- | --- | --- |
+| `mermaidView.fontFamily` | CSS `font-family` string; empty by default | Font family for diagram text. Leave empty to use the VS Code font. For example: `"Fira Code", monospace`. |
+| `mermaidView.fontFamilyMono` | CSS `font-family` string; empty by default | Monospace font for the parts selected by `mermaidView.monospace`. Leave empty to use the VS Code editor font. |
+| `mermaidView.fontSize` | Number; `16` by default | Base label font size in pixels. |
+| `mermaidView.monospace` | Array of `members`, `attributes`, `files`, `messages`; empty by default | Diagram parts rendered in the monospace font: class members, ER attributes, TreeView files, and sequence messages. |
+
+### Layout
+
+| Setting | Values | Description |
+| --- | --- | --- |
+| `mermaidView.maxWidth` | Number; `0` by default | Maximum adaptive layout width in pixels. `0` keeps the natural width. A positive value lets supported layouts wrap, including long sequence messages. |
+| `mermaidView.autoDirection` | Boolean; `true` by default | Allow diagrams to switch to a vertical layout when constrained by `mermaidView.maxWidth`. |
+| `mermaidView.directionBreakpoint` | Number; `640` by default | Width threshold for automatic direction changes. |
+
+### Icons
+
+| Setting | Values | Description |
+| --- | --- | --- |
+| `mermaidView.iconPack` | Path to a JSON or gzipped JSON icon pack; empty by default | Icon artwork used in diagrams. Supports `~` and `${workspaceFolder}`. Empty auto-detects `.vscode/mermaid-icons.json` or `mermaid-icons.json` (plain or `.gz`) in the workspace. |
+
+Settings changes apply to open custom editors immediately and refresh open Markdown previews. The per-diagram light/dark buttons override the active theme for individual diagrams.
 
 ## Commands
 

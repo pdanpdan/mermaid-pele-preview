@@ -1,6 +1,6 @@
 import type { MarkdownIt } from 'markdown-it';
 import * as vscode from 'vscode';
-import { getDiagramFont, getDiagramTheme } from './config';
+import { getDiagramRenderSettings, getDiagramTheme } from './config';
 import { MermaidEditorProvider } from './editorProvider';
 import { decodeIconPack, IconStore, parseIconPack } from './iconStore';
 import { mermaidMarkdownPlugin } from './markdown';
@@ -71,7 +71,12 @@ export async function activate(context: vscode.ExtensionContext) {
   };
   context.subscriptions.push(
     iconStore.onDidChange(refreshMarkdownPreview),
-    themeStore.onDidChange(refreshMarkdownPreview)
+    themeStore.onDidChange(refreshMarkdownPreview),
+    vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration('mermaidView')) {
+        refreshMarkdownPreview();
+      }
+    })
   );
 
   return {
@@ -79,7 +84,7 @@ export async function activate(context: vscode.ExtensionContext) {
       return mermaidMarkdownPlugin(
         md,
         getDiagramTheme,
-        getDiagramFont,
+        getDiagramRenderSettings,
         (source) => iconStore.iconsFor(source),
         () => themeStore.currentVariables
       );

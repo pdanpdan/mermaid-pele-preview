@@ -2,7 +2,7 @@
   "name": "mermaid-pele-preview",
   "displayName": "Mermaid Pele Preview",
   "description": "Render Mermaid diagrams with Pele: preview .mmd files and mermaid code blocks in Markdown.",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "packageManager": "pnpm@12.15.0",
   "author": "Dan Popescu <pdan.popescu@gmail.com> (https://github.com/pdanpdan)",
   "publisher": "pdanpdan",
@@ -154,44 +154,120 @@
         "when": "(resourceExtname == '.mmd' || resourceExtname == '.mermaid') && activeCustomEditorId != 'mermaidView.preview'"
       }
     ],
-    "configuration": {
-      "title": "Mermaid Pele Preview",
-      "properties": {
-        "mermaidView.theme": {
-          "type": "string",
-          "enum": [
-            "auto",
-            "light",
-            "dark"
-          ],
-          "enumDescriptions": [
-            "Follow the current VS Code color theme.",
-            "Use Pele's light color palette.",
-            "Use Pele's dark color palette."
-          ],
-          "default": "auto",
-          "description": "Color theme for rendered Mermaid diagrams."
-        },
-        "mermaidView.fontFamily": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Font family for text in Mermaid diagrams, using CSS `font-family` syntax (for example `\"Fira Code\", monospace`). Leave empty to use the VS Code font.",
-          "scope": "window"
-        },
-        "mermaidView.iconPack": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Path to an icon pack JSON or gzipped JSON file. Supports `${workspaceFolder}` and `~/`. Leave empty to auto-detect `.vscode/mermaid-icons.json`, `mermaid-icons.json`, or `.json.gz` variants in the workspace. Icons are omitted when no pack is configured.",
-          "scope": "window"
-        },
-        "mermaidView.themeFile": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Path to a JSON file with Pele theme variables. Define `light`, `dark`, or both. Supports `${workspaceFolder}` and `~/`. Leave empty to auto-detect `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace.",
-          "scope": "window"
+    "configuration": [
+      {
+        "title": "Mermaid Pele Preview",
+        "properties": {
+          "mermaidView.theme": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "light",
+              "dark"
+            ],
+            "enumDescriptions": [
+              "Follow the current VS Code color theme.",
+              "Use Pele's light color palette.",
+              "Use Pele's dark color palette."
+            ],
+            "default": "auto",
+            "description": "Color theme for rendered Mermaid diagrams.",
+            "scope": "window"
+          },
+          "mermaidView.themeFile": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Path to a JSON file with Pele theme variables. Define `light`, `dark`, or both. Supports `${workspaceFolder}` and `~/`. Leave empty to auto-detect `.vscode/mermaid-theme.json` or `mermaid-theme.json` in the workspace.",
+            "scope": "window"
+          }
+        }
+      },
+      {
+        "title": "Mermaid Pele Preview: Typography",
+        "properties": {
+          "mermaidView.fontFamily": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Font family for text in Mermaid diagrams, using CSS `font-family` syntax (for example `\"Fira Code\", monospace`). Leave empty to use the VS Code font.",
+            "scope": "window"
+          },
+          "mermaidView.fontFamilyMono": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Monospace font family for the parts selected by `#mermaidView.monospace#`, using CSS `font-family` syntax. Leave empty to use the VS Code editor font.",
+            "scope": "window"
+          },
+          "mermaidView.fontSize": {
+            "type": "number",
+            "default": 16,
+            "minimum": 6,
+            "maximum": 48,
+            "markdownDescription": "Base font size in pixels for diagram labels.",
+            "scope": "window"
+          },
+          "mermaidView.monospace": {
+            "type": "array",
+            "default": [],
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "members",
+                "attributes",
+                "files",
+                "messages"
+              ],
+              "enumDescriptions": [
+                "Class diagram members.",
+                "ER diagram attributes.",
+                "TreeView file names.",
+                "Sequence diagram messages."
+              ]
+            },
+            "markdownDescription": "Parts of diagrams to measure and draw in the monospace font.",
+            "scope": "window"
+          }
+        }
+      },
+      {
+        "title": "Mermaid Pele Preview: Layout",
+        "properties": {
+          "mermaidView.maxWidth": {
+            "type": "number",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 10000,
+            "markdownDescription": "Maximum adaptive layout width in pixels. `0` keeps the diagram at its natural width. A positive value lets supported layouts, including sequence messages, wrap.",
+            "scope": "window"
+          },
+          "mermaidView.autoDirection": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Allow supported diagrams to switch to a vertical layout when constrained by `#mermaidView.maxWidth#`.",
+            "scope": "window"
+          },
+          "mermaidView.directionBreakpoint": {
+            "type": "number",
+            "default": 640,
+            "minimum": 200,
+            "maximum": 2000,
+            "markdownDescription": "Width threshold in pixels for `#mermaidView.autoDirection#`.",
+            "scope": "window"
+          }
+        }
+      },
+      {
+        "title": "Mermaid Pele Preview: Icons",
+        "properties": {
+          "mermaidView.iconPack": {
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Path to an icon pack JSON or gzipped JSON file. Supports `${workspaceFolder}` and `~/`. Leave empty to auto-detect `.vscode/mermaid-icons.json`, `mermaid-icons.json`, or `.json.gz` variants in the workspace. Icons are omitted when no pack is configured.",
+            "scope": "window"
+          }
         }
       }
-    },
+    ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
       "./media/webview.js"

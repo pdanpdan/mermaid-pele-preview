@@ -1,6 +1,11 @@
-import { mount, type Mounted } from 'pele';
+import { mount, type Mounted, type MountOptions } from 'pele';
 import { resolveIcon, type IconSelection } from './icons';
 import { resolveMath } from './math';
+import {
+  DEFAULT_DIAGRAM_RENDER_SETTINGS,
+  parseDiagramRenderSettings,
+  type DiagramRenderSettings,
+} from './renderSettings';
 import type { DiagramThemeVariables } from './theme';
 
 type VsCodeApi = {
@@ -109,6 +114,14 @@ function applyFont(font: unknown): void {
   }
 }
 
+function applyFontMono(font: unknown): void {
+  if (typeof font === 'string' && font.trim()) {
+    document.documentElement.style.setProperty('--mermaid-view-font-mono', font.trim());
+  } else {
+    document.documentElement.style.removeProperty('--mermaid-view-font-mono');
+  }
+}
+
 class DiagramView {
   readonly figure: HTMLElement;
 
@@ -135,6 +148,8 @@ class DiagramView {
   private dragX = 0;
   private icons: IconSelection | undefined;
   private themeVariables: DiagramThemeVariables | undefined;
+  private settings: DiagramRenderSettings;
+  private source = '';
   private forced: 'light' | 'dark' | undefined;
   private readonly appliedThemeVariables = new Set<string>();
 
@@ -142,12 +157,14 @@ class DiagramView {
     container: HTMLElement,
     onSave?: (svg: string, name: string) => void,
     icons?: IconSelection,
-    themeVariables?: DiagramThemeVariables
+    themeVariables?: DiagramThemeVariables,
+    settings?: DiagramRenderSettings
   ) {
     this.container = container;
     this.onSave = onSave;
     this.icons = icons;
     this.themeVariables = themeVariables;
+    this.settings = settings ?? DEFAULT_DIAGRAM_RENDER_SETTINGS;
     this.forced = container.classList.contains('pele-theme-light')
       ? 'light'
       : container.classList.contains('pele-theme-dark')
@@ -220,11 +237,19 @@ class DiagramView {
     this.applyThemeVariables();
   }
 
+  setRenderSettings(settings: DiagramRenderSettings): void {
+    this.settings = settings;
+    if (this.mounted && this.source.trim()) {
+      this.mounted.update(this.source, this.mountOptions());
+    }
+  }
+
   refreshTheme(): void {
     this.applyThemeVariables();
   }
 
   render(source: string): void {
+    this.source = source;
     if (!source.trim()) {
       this.mounted?.destroy();
       this.mounted = undefined;
@@ -238,7 +263,7 @@ class DiagramView {
     }
 
     if (this.mounted) {
-      this.mounted.update(source);
+      this.mounted.update(source, this.mountOptions());
       if (this.mounted.error !== undefined) {
         this.svg = null;
         this.scale = 1;
@@ -251,14 +276,7 @@ class DiagramView {
 
     this.container.replaceChildren();
     try {
-      this.mounted = mount(this.container, source, {
-        zoom: false,
-        responsive: false,
-        maxWidth: Number.MAX_SAFE_INTEGER,
-        icons: (name) => resolveIcon(name, this.icons),
-        math: resolveMath,
-        onRender: () => this.handleRender(),
-      });
+      this.mounted = mount(this.container, source, this.mountOptions());
       if (this.mounted.error !== undefined) {
         this.svg = null;
         this.scale = 1;
@@ -274,6 +292,27 @@ class DiagramView {
       this.container.replaceChildren(hint(`Could not render diagram: ${message}`));
       this.toolbar.hidden = true;
     }
+  }
+
+  private mountOptions(): MountOptions {
+    return {
+      zoom: false,
+      responsive: false,
+      maxWidth:
+        this.settings.maxWidth > 0
+          ? this.settings.maxWidth
+          : Number.MAX_SAFE_INTEGER,
+      fontSize: this.settings.fontSize,
+      monospace: this.settings.monospace,
+      autoDirection: this.settings.autoDirection,
+      directionBreakpoint: this.settings.directionBreakpoint,
+      ...(this.settings.fontFamilyMono
+        ? { fontFamilyMono: this.settings.fontFamilyMono }
+        : {}),
+      icons: (name) => resolveIcon(name, this.icons),
+      math: resolveMath,
+      onRender: () => this.handleRender(),
+    };
   }
 
   private createButton(action: string, text: string, label: string): HTMLButtonElement {
@@ -798,8 +837,14 @@ function initMarkdownPreview(): void {
       const source = block.textContent ?? '';
       const container = document.createElement('div');
       container.className = 'pele-diagram';
-      if (block.dataset.font) {
-        container.style.setProperty('--mermaid-view-font', block.dataset.font);
+      const settings = parseDiagramRenderSettings(block.dataset.settings);
+      const font = settings?.fontFamily || block.dataset.font;
+      const fontMono = settings?.fontFamilyMono || block.dataset.fontMono;
+      if (font) {
+        container.style.setProperty('--mermaid-view-font', font);
+      }
+      if (fontMono) {
+        container.style.setProperty('--mermaid-view-font-mono', fontMono);
       }
       for (const themeClass of THEME_CLASSES) {
         if (block.classList.contains(themeClass)) {
@@ -810,7 +855,8 @@ function initMarkdownPreview(): void {
         container,
         undefined,
         parseIconSelection(block.dataset.icons),
-        parseThemeVariables(block.dataset.themeVars)
+        parseThemeVariables(block.dataset.themeVars),
+        settings
       );
       if (block.dataset.line) {
         view.figure.dataset.line = block.dataset.line;
@@ -857,6 +903,13 @@ function initEditor(container: HTMLElement): void {
       if ('font' in data) {
         applyFont(data.font);
       }
+      if ('settings' in data) {
+        const settings = parseDiagramRenderSettings(data.settings);
+        if (settings) {
+          applyFontMono(settings.fontFamilyMono);
+          view.setRenderSettings(settings);
+        }
+      }
       if ('themeVariables' in data) {
         view.setThemeVariables(parseThemeVariables(data.themeVariables));
       }
@@ -870,6 +923,13 @@ function initEditor(container: HTMLElement): void {
     }
     if ('font' in data) {
       applyFont(data.font);
+    }
+    if ('settings' in data) {
+      const settings = parseDiagramRenderSettings(data.settings);
+      if (settings) {
+        applyFontMono(settings.fontFamilyMono);
+        view.setRenderSettings(settings);
+      }
     }
     if ('themeVariables' in data) {
       view.setThemeVariables(parseThemeVariables(data.themeVariables));

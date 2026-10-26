@@ -1,6 +1,10 @@
 import * as path from 'node:path';
 import * as vscode from 'vscode';
-import { getDiagramFont, getDiagramTheme } from './config';
+import {
+  getDiagramFont,
+  getDiagramRenderSettings,
+  getDiagramTheme,
+} from './config';
 import type { IconStore } from './iconStore';
 import type { ThemeStore } from './themeStore';
 
@@ -35,6 +39,7 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
         themeVariables: this.themeStore.currentVariables,
         theme: getDiagramTheme(),
         font: getDiagramFont(),
+        settings: getDiagramRenderSettings(),
       });
     };
 
@@ -86,9 +91,18 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
     });
 
     const configSubscription = vscode.workspace.onDidChangeConfiguration((event) => {
+      const settings = [
+        'theme',
+        'fontFamily',
+        'fontFamilyMono',
+        'fontSize',
+        'monospace',
+        'maxWidth',
+        'autoDirection',
+        'directionBreakpoint',
+      ];
       if (
-        !event.affectsConfiguration('mermaidView.theme') &&
-        !event.affectsConfiguration('mermaidView.fontFamily')
+        !settings.some((key) => event.affectsConfiguration(`mermaidView.${key}`))
       ) {
         return;
       }
@@ -97,6 +111,7 @@ export class MermaidEditorProvider implements vscode.CustomTextEditorProvider {
         theme: getDiagramTheme(),
         font: getDiagramFont(),
         themeVariables: this.themeStore.currentVariables,
+        settings: getDiagramRenderSettings(),
       });
     });
 

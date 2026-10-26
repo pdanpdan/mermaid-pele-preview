@@ -2,6 +2,17 @@
 
 All notable changes to this extension are documented here.
 
+## [0.6.0] - 2026-10-26
+
+### Added
+
+- Grouped settings for appearance, typography, layout, and icons.
+- `mermaidView.monospace` for class members, ER attributes, TreeView files,
+  and sequence messages.
+- `mermaidView.maxWidth` for adaptive layout and sequence message wrapping,
+  with `mermaidView.autoDirection` and `mermaidView.directionBreakpoint`.
+- `mermaidView.fontFamilyMono` and `mermaidView.fontSize`.
+
 ## [0.5.2] - 2026-10-26
 
 ### Changed
