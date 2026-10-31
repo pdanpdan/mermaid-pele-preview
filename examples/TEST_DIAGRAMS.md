@@ -950,3 +950,190 @@ flowchart LR
     A[Search link] --> B
     click A "https://example.com/search?q=a%20b&x=1%26y"
 ```
+
+## Pele 1.13 features
+
+### Mermaid palette colors
+
+```mermaid
+---
+config:
+  themeVariables:
+    pie1: '#ffeb3b'
+    pie2: '#1a237e'
+    pie3: 'var(--pele-accent)'
+---
+pie
+  "Light": 1
+  "Dark": 1
+  "Accent": 1
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    git0: '#ffeb3b'
+    git1: '#1a237e'
+    git2: '#43a047'
+---
+gitGraph
+  commit id: "main"
+  branch feature
+  commit id: "feature"
+  checkout main
+  commit id: "main 2"
+  merge feature
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    cScale0: '#ffeb3b'
+    cScale1: '#1a237e'
+    cScale2: '#43a047'
+---
+timeline
+  title Palette timeline
+  section Light
+    2001 : Yellow
+  section Dark
+    2002 : Navy
+  section Green
+    2003 : Green
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    cScale0: '#ffeb3b'
+    cScale1: '#1a237e'
+---
+treemap-beta
+  "Light": 2
+  "Dark": 1
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    cScale0: '#ffeb3b'
+    cScale1: '#1a237e'
+    cScale2: '#43a047'
+---
+radar-beta
+  axis one, two, three
+  curve a{1,2,3}
+  curve b{3,2,1}
+  curve c{2,3,1}
+  max 3
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    cScale1: '#ffeb3b'
+    cScale2: '#1a237e'
+    cScale3: '#43a047'
+---
+mindmap
+  root((Palette))
+    Light
+    Dark
+    Green
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    venn1: '#ffeb3b'
+    venn2: '#1a237e'
+---
+venn-beta
+  set A
+  set B
+  set C
+  set D
+```
+
+```mermaid
+---
+config:
+  themeVariables:
+    xyChart:
+      plotColorPalette: '#ffeb3b, #1a237e'
+---
+xychart
+  title "Repeating palette"
+  x-axis [a, b, c]
+  y-axis "Value" 0 --> 10
+  bar [1,2,3]
+  line [3,2,1]
+  bar [2,3,1]
+  line [1,3,2]
+```
+
+### Subgraph edge layout
+
+```mermaid
+flowchart TB
+  subgraph S
+    a
+    b
+    c
+  end
+  x --> a
+```
+
+```mermaid
+flowchart LR
+  subgraph S
+    A
+    B --> G
+  end
+  D
+  E --> A
+  D --> F
+  F --> C
+  B --> C
+  style S fill:white
+```
+
+### Block labels in spanning cells
+
+```mermaid
+block
+  columns 3
+  1["Something"]
+  2["Something long long long long"]:2
+  3["Something long long long long"]:3
+```
+
+### Quadrant font sizes and point label wrapping
+
+```mermaid
+---
+config:
+  quadrantChart:
+    chartWidth: 320
+    titleFontSize: 30
+    quadrantLabelFontSize: 20
+    xAxisLabelFontSize: 11
+    yAxisLabelFontSize: 13
+    pointLabelFontSize: 9
+---
+quadrantChart
+  title Garden plan
+  x-axis Low effort --> High effort
+  y-axis Low value --> High value
+  quadrant-1 Big bets
+  quadrant-2 Quick wins
+  quadrant-3 Reconsider
+  quadrant-4 Plan
+  Drip irrigation for the whole orchard, the vegetable beds, the greenhouse, and every fruit tree: [0.5, 0.5]
+```

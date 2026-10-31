@@ -2,6 +2,12 @@
 
 All notable changes to this extension are documented here.
 
+## [0.8.0] - 2026-10-31
+
+### Changed
+
+- Updated Pele to 1.13.0.
+
 ## [0.7.0] - 2026-10-26
 
 ### Changed
