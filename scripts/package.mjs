@@ -57,6 +57,7 @@ delete manifest.scripts;
 
 await rm(tempDir, { recursive: true, force: true });
 await mkdir(path.join(tempDir, 'dist'), { recursive: true });
+await mkdir(path.join(tempDir, 'images'), { recursive: true });
 await mkdir(path.join(tempDir, 'media'), { recursive: true });
 
 await writeFile(path.join(tempDir, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
@@ -66,6 +67,7 @@ await cp(path.join(root, 'CHANGELOG.md'), path.join(tempDir, 'CHANGELOG.md'));
 await cp(path.join(root, 'LICENSE'), path.join(tempDir, 'LICENSE'));
 await cp(path.join(root, 'THIRD_PARTY_NOTICES.md'), path.join(tempDir, 'THIRD_PARTY_NOTICES.md'));
 await cp(path.join(root, 'dist', 'extension.js'), path.join(tempDir, 'dist', 'extension.js'));
+await cp(path.join(root, 'images', 'icon.png'), path.join(tempDir, 'images', 'icon.png'));
 await cp(path.join(root, 'media', 'webview.js'), path.join(tempDir, 'media', 'webview.js'));
 await cp(path.join(root, 'media', 'preview.css'), path.join(tempDir, 'media', 'preview.css'));
 await cp(path.join(root, 'media', 'temml.css'), path.join(tempDir, 'media', 'temml.css'));

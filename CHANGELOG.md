@@ -2,6 +2,12 @@
 
 All notable changes to this extension are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Extension icon.
+
 ## [0.8.0] - 2026-10-31
 
 ### Changed
