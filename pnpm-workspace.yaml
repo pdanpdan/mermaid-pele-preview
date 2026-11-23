@@ -13,14 +13,33 @@ catalog:
   '@types/markdown-it': ^14.2.0
   '@types/node': ^26.6.6
   '@types/vscode': 1.85.0
-  '@vscode/vsce': ^4.1.0
+  '@vscode/vsce': ^4.1.1
   esbuild: ^0.28.2
   markdown-it: ^15.0.3
-  oxlint: ^1.90.0
+  oxlint: ^1.95.0
   oxlint-tsgolint: ^7.0.2005
   pele: ^1.13.0
   temml: ^0.14.0
   typescript: ^6.0.3
 
 minimumReleaseAgeExclude:
-  - pele@1.13.0
+  - '@oxlint/binding-android-arm-eabi@1.95.0'
+  - '@oxlint/binding-android-arm64@1.95.0'
+  - '@oxlint/binding-darwin-arm64@1.95.0'
+  - '@oxlint/binding-darwin-x64@1.95.0'
+  - '@oxlint/binding-freebsd-x64@1.95.0'
+  - '@oxlint/binding-linux-arm-gnueabihf@1.95.0'
+  - '@oxlint/binding-linux-arm-musleabihf@1.95.0'
+  - '@oxlint/binding-linux-arm64-gnu@1.95.0'
+  - '@oxlint/binding-linux-arm64-musl@1.95.0'
+  - '@oxlint/binding-linux-ppc64-gnu@1.95.0'
+  - '@oxlint/binding-linux-riscv64-gnu@1.95.0'
+  - '@oxlint/binding-linux-riscv64-musl@1.95.0'
+  - '@oxlint/binding-linux-s390x-gnu@1.95.0'
+  - '@oxlint/binding-linux-x64-gnu@1.95.0'
+  - '@oxlint/binding-linux-x64-musl@1.95.0'
+  - '@oxlint/binding-openharmony-arm64@1.95.0'
+  - '@oxlint/binding-win32-arm64-msvc@1.95.0'
+  - '@oxlint/binding-win32-ia32-msvc@1.95.0'
+  - '@oxlint/binding-win32-x64-msvc@1.95.0'
+  - oxlint@1.95.0
